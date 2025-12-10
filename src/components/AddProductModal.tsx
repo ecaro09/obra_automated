@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Check, Sparkles, Loader2, Barcode, Ruler, Send } from 'lucide-react';
 import { Product, Variant } from '../types';
-import { generateProductDescription } from '../services/gemini';
-import { ImageInputWithAI } from './ImageInputWithAI'; // Import the new component
+import { generateProductDescription, generateProductImage } from '../services/gemini'; // Ensure generateProductImage is imported for fallback
+import { ImageInputWithAI } from './ImageInputWithAI';
 
 interface AddProductModalProps {
   isOpen: boolean;
