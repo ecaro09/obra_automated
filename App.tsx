@@ -7,6 +7,7 @@ import { ProductDetailsModal } from './components/ProductDetailsModal';
 import { ChatAssistant } from './components/ChatAssistant';
 import { AddProductModal } from './components/AddProductModal';
 import { ComparisonModal } from './components/ComparisonModal';
+import { Dashboard } from './components/Dashboard';
 import { PRODUCTS_DB, calculateFinalPrice } from './constants';
 import { Product, CartItem } from './types';
 import { Search, Sparkles, Loader2, XCircle, Scale, Layers, Image as ImageIcon, X } from 'lucide-react';
@@ -410,6 +411,11 @@ function App() {
              </span>
           </div>
         </div>
+
+        {/* Dashboard Overview (Inventory Stats) */}
+        {!isBatchMode && !searchTerm && selectedCategory === 'All' && (
+            <Dashboard products={allProducts} />
+        )}
 
         {/* Search Bar & Batch Toggle */}
         <div className="mb-8">

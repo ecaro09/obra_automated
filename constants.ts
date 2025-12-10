@@ -100,7 +100,7 @@ export const PRODUCTS_DB: Product[] = [
   {
     "id": "SH102",
     "sku": "SH102",
-    "name": "EXECUTIVE L-TYPE TABLE",
+    "name": "EXECUTIVE L-TYPE TABLE (NKT Series)",
     "description": "Versatile L-shaped desk with variable length options. Features a push-to-open side cabinet and smooth-gliding drawers. The integrated combi-lock system and cable grommets make it a practical choice for modern managers.",
     "dimensions": "Varies by Selection",
     "price": 18515.00,
@@ -415,7 +415,7 @@ export const PRODUCTS_DB: Product[] = [
     "id": "SH-3014",
     "sku": "SH-3014",
     "name": "L-TYPE OFFICE TABLE",
-    "description": "Ergonomic L-type desk with curved edges for comfort. Includes a system unit bin, combi-lock side drawers, close-in cabinets, and a USB-equipped cable grommet. Maximizes utility in a compact L-shape.",
+    "description": "Ergonomic L-type desk with curved edges for comfort. Includes a system unit bin, combi-lock side drawers, storage cabinets, and a USB-equipped cable grommet. Maximizes utility in a compact L-shape.",
     "dimensions": "L140cm x W60cm x H75cm",
     "price": 12600.00,
     "category": "Office Table",

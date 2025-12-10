@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, DragEvent, useEffect } from 'react';
-import { X, Upload, Image as ImageIcon, Plus, Check, Sparkles, Loader2, RefreshCw, Send, Barcode, Ruler, Trash2 } from 'lucide-react';
+import { X, Upload, Image as ImageIcon, Plus, Check, Sparkles, Loader2, RefreshCw, Send, Barcode, Ruler, Trash2, Link } from 'lucide-react';
 import { Product, Variant } from '../types';
 import { generateProductImage, generateProductDescription } from '../services/gemini';
 import { getImageUrl } from '../utils/imageUtils';
@@ -27,6 +27,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
   const [dragActive, setDragActive] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const [fileMeta, setFileMeta] = useState<{ name: string; size: string } | null>(null);
+  const [imageUrlInput, setImageUrlInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGeneratingDesc, setIsGeneratingDesc] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,7 +57,16 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
           variants: productToEdit.variants || [] 
       });
       // Resolve URL in case it's a relative path
-      setPreview(getImageUrl(productToEdit.image));
+      const imgUrl = getImageUrl(productToEdit.image);
+      setPreview(imgUrl);
+      
+      // If it's a URL (not base64 data), populate the input box
+      if (productToEdit.image && !productToEdit.image.startsWith('data:')) {
+          setImageUrlInput(productToEdit.image);
+      } else {
+          setImageUrlInput('');
+      }
+
       setKeyFeatures('');
       setFileMeta(null);
     } else if (isOpen && !productToEdit) {
@@ -74,6 +84,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
         variants: []
       });
       setPreview(null);
+      setImageUrlInput('');
       setCustomPrompt('');
       setShowPromptInput(false);
       setKeyFeatures('');
@@ -136,6 +147,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
         name: file.name,
         size: formatFileSize(file.size)
       });
+      setImageUrlInput(''); // Clear URL input if file is selected
       setShowPromptInput(false);
     } catch (err) {
       console.error("Error converting image", err);
@@ -148,11 +160,26 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
     setPreview(null);
     setFormData(prev => ({ ...prev, image: '' }));
     setFileMeta(null);
+    setImageUrlInput('');
     if (fileInputRef.current) {
         fileInputRef.current.value = '';
     }
     setShowPromptInput(false);
     setCustomPrompt('');
+  };
+
+  const handleUrlInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImageUrlInput(e.target.value);
+  };
+
+  const handleUrlInputBlur = () => {
+    if (imageUrlInput.trim() !== '') {
+        const url = getImageUrl(imageUrlInput.trim());
+        setPreview(url);
+        setFormData(prev => ({ ...prev, image: imageUrlInput.trim() }));
+        setFileMeta(null);
+        setShowPromptInput(false);
+    }
   };
 
   const handleGenerateAI = async (e: React.SyntheticEvent, overridePrompt?: string) => {
@@ -176,6 +203,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
         setPreview(aiImage);
         setFormData(prev => ({ ...prev, image: aiImage }));
         setShowPromptInput(true); // Show input for further refinements
+        setImageUrlInput(''); // Clear URL input
         setFileMeta(null); // AI generated image has no file meta
       } else {
         alert("Could not generate image. Please check your API key.");
@@ -209,7 +237,8 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                 ...prev, 
                 description: desc,
                 // CRITICAL: Explicitly preserve the current image to prevent any state overrides
-                image: prev.image 
+                // Fallback to preview if formData.image is empty but preview exists
+                image: prev.image || preview || '' 
             }));
         }
     } catch (err) {
@@ -459,6 +488,36 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                     </div>
                   )}
                 </div>
+
+                {/* Paste URL Section - Always Visible */}
+                <div className="pt-3">
+                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">
+                        Image URL
+                    </label>
+                    <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Link className="h-4 w-4 text-slate-400" />
+                        </div>
+                        <input
+                            type="text"
+                            className="block w-full pl-10 pr-16 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50 focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition-all"
+                            placeholder="https://example.com/image.jpg"
+                            value={imageUrlInput}
+                            onChange={handleUrlInputChange}
+                            onBlur={handleUrlInputBlur}
+                            onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleUrlInputBlur())}
+                        />
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-2">
+                            <button 
+                                type="button"
+                                onClick={handleUrlInputBlur}
+                                className="text-xs bg-white border border-slate-200 px-2 py-1 rounded text-slate-500 hover:text-teal-600 hover:border-teal-500 transition-colors"
+                            >
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 
                 <div className="pt-2">
                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Product ID (Unique)</label>
@@ -664,4 +723,36 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                                     </div>
                                 </div>
                             ))}
-                        
+                        </div>
+                    ) : (
+                        <p className="text-xs text-slate-400 italic">No variants added.</p>
+                    )}
+                 </div>
+
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="mt-8 pt-4 border-t border-slate-100 flex justify-end gap-3">
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="px-6 py-2.5 rounded-xl border border-slate-300 text-slate-600 font-bold hover:bg-slate-50 transition-colors"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="px-8 py-2.5 rounded-xl bg-slate-900 text-white font-bold hover:bg-teal-600 shadow-lg hover:shadow-xl transition-all disabled:opacity-70 flex items-center gap-2"
+                >
+                    {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {productToEdit ? 'Save Changes' : 'Add Product'}
+                </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -127,7 +127,10 @@ export const searchProducts = async (searchTerm: string, products: Product[]): P
 
         const jsonText = response.text;
         if (!jsonText) return [];
-        return JSON.parse(jsonText);
+
+        // Clean up markdown code blocks if present
+        const cleanedJson = jsonText.replace(/```json\n?|\n?```/g, '').trim();
+        return JSON.parse(cleanedJson);
     } catch (error) {
         console.error("Gemini Search Error:", error);
         return [];

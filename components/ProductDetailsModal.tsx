@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
-import { X, ShoppingCart, Tag, Check, AlertCircle, Minus, Plus, Ruler, Barcode, Package } from 'lucide-react';
+import { X, ShoppingCart, Tag, Check, AlertCircle, Minus, Plus, Ruler, Barcode, Package, Link as LinkIcon } from 'lucide-react';
 import { Product } from '../types';
 import { calculateFinalPrice } from '../constants';
 import { getImageUrl } from '../utils/imageUtils';
@@ -19,10 +20,12 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
+  const [showCopyFeedback, setShowCopyFeedback] = useState(false);
 
   // Initialize defaults when product changes
   useEffect(() => {
     setQuantity(1);
+    setShowCopyFeedback(false);
     if (product) {
         if (product.variants) {
             const defaults: Record<string, string> = {};
@@ -89,6 +92,24 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     onClose();
   };
 
+  const handleCopyLink = async () => {
+    if (!resolvedImage) return;
+
+    try {
+      // Ensure we copy an absolute URL if the path is relative
+      let urlToCopy = resolvedImage;
+      if (urlToCopy.startsWith('/')) {
+        urlToCopy = `${window.location.origin}${urlToCopy}`;
+      }
+
+      await navigator.clipboard.writeText(urlToCopy);
+      setShowCopyFeedback(true);
+      setTimeout(() => setShowCopyFeedback(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy image URL', err);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
@@ -144,6 +165,25 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                    In Stock
                  </div>
               )}
+
+              {/* Copy Image Link Button */}
+              <button
+                onClick={handleCopyLink}
+                className="absolute bottom-4 right-4 p-2 bg-white/90 backdrop-blur-sm rounded-lg text-slate-500 hover:text-teal-600 hover:bg-white transition-all shadow-md border border-slate-200 no-print flex items-center gap-2 group z-20"
+                title="Copy Image URL"
+              >
+                 {showCopyFeedback ? (
+                     <>
+                       <Check className="w-4 h-4 text-emerald-500" />
+                       <span className="text-xs font-bold text-emerald-600">Copied</span>
+                     </>
+                 ) : (
+                     <>
+                       <LinkIcon className="w-4 h-4" />
+                       <span className="text-xs font-medium text-slate-600 group-hover:text-teal-600 hidden sm:inline">Copy Link</span>
+                     </>
+                 )}
+              </button>
             </div>
 
             {/* Content Section */}
