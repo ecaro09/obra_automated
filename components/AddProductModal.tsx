@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, DragEvent, useEffect } from 'react';
 import { X, Upload, Image as ImageIcon, Plus, Check, Sparkles, Loader2, RefreshCw, Send, Barcode, Ruler, Trash2 } from 'lucide-react';
 import { Product, Variant } from '../types';
@@ -206,10 +207,9 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
         if (desc) {
             setFormData(prev => ({ 
                 ...prev, 
-                description: desc
-                // Note: We intentionally do NOT set 'image' here. 
-                // This respects the latest 'prev' state, ensuring that if a user uploaded an image 
-                // while description was generating, it isn't overwritten by a stale variable.
+                description: desc,
+                // CRITICAL: Explicitly preserve the current image to prevent any state overrides
+                image: prev.image 
             }));
         }
     } catch (err) {
@@ -230,7 +230,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
   const handleAddVariant = () => {
     setFormData(prev => ({
         ...prev,
-        variants: [...(prev.variants || []), { name: '', options: [] }]
+        variants: [...(prev.variants || []), { name: '', options: [], prices: {} }]
     }));
   };
 
@@ -260,6 +260,23 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
       });
   };
 
+  const handleVariantPriceChange = (variantIndex: number, option: string, price: string) => {
+      setFormData(prev => {
+          const newVariants = [...(prev.variants || [])];
+          const currentVariant = newVariants[variantIndex];
+          const currentPrices = { ...(currentVariant.prices || {}) };
+
+          if (price && price.trim() !== '') {
+              currentPrices[option] = parseFloat(price);
+          } else {
+              delete currentPrices[option];
+          }
+
+          newVariants[variantIndex] = { ...currentVariant, prices: currentPrices };
+          return { ...prev, variants: newVariants };
+      });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -271,7 +288,13 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
     setIsSubmitting(true);
     let finalImageUrl = formData.image;
 
-    // Only fallback to generation if ABSOLUTELY no image exists
+    // Safety fallback: if image is missing in form data but we have a preview (e.g. from an edit), use the preview
+    // provided it is a Data URI or a valid URL.
+    if (!finalImageUrl && preview) {
+        finalImageUrl = preview;
+    }
+
+    // Only fallback to AI generation if ABSOLUTELY no image exists
     if (!finalImageUrl) {
         try {
             const generatedUrl = await generateProductImage(
@@ -298,7 +321,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
       category: formData.category || 'Uncategorized',
       price: formData.price || 0,
       stock: formData.stock || 0,
-      image: finalImageUrl,
+      image: finalImageUrl || '',
       sku: formData.sku,
       dimensions: formData.dimensions,
       variants: formData.variants
@@ -607,49 +630,38 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                                             type="text"
                                             value={variant.name}
                                             onChange={(e) => handleVariantNameChange(idx, e.target.value)}
-                                            placeholder="Variant Name (e.g. Color, Size)"
+                                            placeholder="Variant Name (e.g. Size)"
                                             className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded focus:border-teal-500 outline-none"
                                         />
                                         <input
                                             type="text"
                                             value={variant.options.join(', ')}
                                             onChange={(e) => handleVariantOptionsChange(idx, e.target.value)}
-                                            placeholder="Options (comma separated: Red, Blue)"
+                                            placeholder="Options (e.g. 1.2m, 1.4m)"
                                             className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded focus:border-teal-500 outline-none"
                                         />
+                                        
+                                        {/* Price Overrides per Option */}
+                                        {variant.options.length > 0 && (
+                                            <div className="mt-2 space-y-2 pl-2 border-l-2 border-slate-100">
+                                                {variant.options.map((option) => (
+                                                    <div key={option} className="flex items-center gap-2 text-sm">
+                                                        <span className="flex-1 text-slate-600 truncate" title={option}>{option}</span>
+                                                        <div className="flex items-center gap-1">
+                                                            <span className="text-slate-400 text-xs">₱</span>
+                                                            <input
+                                                                type="number"
+                                                                placeholder="Override Price"
+                                                                value={variant.prices?.[option] || ''}
+                                                                onChange={(e) => handleVariantPriceChange(idx, option, e.target.value)}
+                                                                className="w-24 px-2 py-1 text-xs border border-slate-200 rounded focus:border-teal-500 outline-none"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ))}
-                        </div>
-                    ) : (
-                        <p className="text-xs text-slate-400 italic">No variants added.</p>
-                    )}
-                 </div>
-
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="mt-8 pt-4 border-t border-slate-100 flex justify-end gap-3">
-                <button
-                    type="button"
-                    onClick={onClose}
-                    className="px-6 py-2.5 rounded-xl border border-slate-300 text-slate-600 font-bold hover:bg-slate-50 transition-colors"
-                >
-                    Cancel
-                </button>
-                <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-8 py-2.5 rounded-xl bg-slate-900 text-white font-bold hover:bg-teal-600 shadow-lg hover:shadow-xl transition-all disabled:opacity-70 flex items-center gap-2"
-                >
-                    {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-                    {productToEdit ? 'Save Changes' : 'Add Product'}
-                </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-};
+                        

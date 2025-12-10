@@ -8,7 +8,7 @@ let lastUsedProductsHash: string = "";
 
 const formatCatalogForPrompt = (products: Product[]) => {
     return products.map(p => 
-        `- SKU: "${p.sku || p.id}" | Name: "${p.name}" | Description: "${p.description}" | Category: "${p.category}" | Unit Price: ₱${calculateFinalPrice(p.price).toFixed(2)} | Stock: ${p.stock} | ImagePath: "${p.image}"`
+        `- SKU: "${p.sku || p.id}" | Name: "${p.name}" | Description: "${p.description}" | Category: "${p.category}" | Unit Price: ₱${calculateFinalPrice(p.price).toFixed(2)} | Stock: ${p.stock} | ImagePath: "${p.image ? 'Present' : 'Missing'}"`
     ).join('\n');
 };
 
@@ -18,8 +18,8 @@ export const initializeChat = async (products: Product[]) => {
         return null;
     }
 
-    // Generate a simple hash to check if catalog data changed
-    const currentHash = JSON.stringify(products.map(p => p.id + p.stock + p.price + p.image));
+    // Generate a lightweight hash to check if catalog data changed, avoiding huge base64 strings
+    const currentHash = JSON.stringify(products.map(p => p.id + p.stock + p.price));
     
     // Reuse session if catalog hasn't changed
     if (chatSession && lastUsedProductsHash === currentHash) {
@@ -36,7 +36,7 @@ export const initializeChat = async (products: Product[]) => {
 
 DESCRIPTION:
 You are the permanent AI engine of the Online Catalog and Auto-Quotation App. 
-Your primary function is to store, recall, and use all product data and images provided in the context.
+Your primary function is to store, recall, and use all product data provided in the context.
 
 CORE FUNCTIONS:
 
@@ -157,7 +157,7 @@ export const generateProductDescription = async (name: string, category: string,
                 - Focus on material quality, functionality, and design style.
                 - Max 2-3 sentences.
                 - Tone: Premium, inviting, sales-oriented.
-                - Output only the description text, no labels.
+                - Output only the description text, no labels, no markdown.
             `,
         });
         return response.text;

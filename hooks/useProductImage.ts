@@ -55,6 +55,7 @@ export const useProductImage = (
       // 2. If placeholder also fails, try AI generation automatically
       setTriedAIFallback(true);
       setIsGenerating(true);
+      setIsImageLoading(true); // Show shimmer immediately during auto-recovery
       
       try {
         // Pass full context (Category + Description) for better auto-recovery results
@@ -82,22 +83,26 @@ export const useProductImage = (
           onUpdateImage?.(product.id, generatedUrl);
         } else {
           setHasFinalError(true);
+          setIsImageLoading(false); // Stop loading since we have no image to show
         }
       } catch (err) {
         console.error("AI Auto-generation failed:", err);
         setHasFinalError(true);
+        setIsImageLoading(false); // Stop loading on error
       } finally {
         setIsGenerating(false);
       }
     } else {
       // 3. If AI also fails or was already tried, show the error state
       setHasFinalError(true);
+      setIsImageLoading(false); // Stop loading since we have no image to show
     }
   };
 
   const handleGenerateImage = async (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsGenerating(true);
+    setIsImageLoading(true); // Show shimmer immediately to hide old image
     
     // Explicitly pass category and description to ensure high-quality context-aware generation
     let generatedUrl = await generateProductImage(
@@ -123,6 +128,7 @@ export const useProductImage = (
       onUpdateImage?.(product.id, generatedUrl);
     } else {
         console.error("Failed to generate image");
+        setIsImageLoading(false); // Ensure loading stops if generation failed
     }
     
     setIsGenerating(false);

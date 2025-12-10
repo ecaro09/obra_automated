@@ -146,35 +146,44 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       )}
 
       <div className="relative h-48 bg-slate-50 p-4 flex items-center justify-center overflow-hidden">
-        {/* Manual Loading State */}
-        {isGenerating && !isBatchMode ? (
-            <div className="flex flex-col items-center justify-center text-teal-600 animate-pulse bg-white/80 absolute inset-0 z-20 backdrop-blur-sm">
-                <Loader2 className="w-8 h-8 animate-spin mb-2" />
-                <span className="text-xs font-semibold uppercase tracking-wider">Generating AI Image...</span>
-            </div>
-        ) : null}
-
-        {/* Lazy Loading Skeleton */}
-        {isImageLoading && !hasFinalError && !isGenerating && !isBatchMode && (
-             <div className="absolute inset-0 bg-slate-50 animate-pulse flex items-center justify-center z-10">
-                <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center opacity-50">
-                    <ImageIcon className="w-6 h-6 text-slate-400" />
-                </div>
+        
+        {/* Unified Loading/Generating State with Shimmer */}
+        {(isImageLoading || isGenerating) && !hasFinalError && !isBatchMode && (
+             <div className="absolute inset-0 shimmer-effect flex items-center justify-center z-20">
+                {!isGenerating && (
+                    <div className="w-12 h-12 bg-white/40 rounded-full flex items-center justify-center backdrop-blur-md shadow-sm border border-white/20">
+                        <ImageIcon className="w-5 h-5 text-slate-400/70" />
+                    </div>
+                )}
              </div>
         )}
 
+        {/* AI Generating Overlay (Sits on top of shimmer) */}
+        {isGenerating && !isBatchMode && (
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-white/10 backdrop-blur-[1px]">
+                 <div className="bg-white/95 px-4 py-3 rounded-2xl shadow-lg border border-white/50 flex flex-col items-center animate-in zoom-in-95 duration-300">
+                    <Loader2 className="w-6 h-6 animate-spin text-teal-600 mb-2" />
+                    <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Generating</span>
+                </div>
+            </div>
+        )}
+
+        {/* 3. The Image or Fallback */}
         {!hasFinalError ? (
           <>
             <img 
               src={imgSrc} 
               alt={product.name}
-              className={`h-full w-full transform transition-transform duration-500 ease-in-out group-hover:scale-105 ${
+              className={`h-full w-full transform transition-all duration-500 ease-in-out group-hover:scale-105 ${
                 isPlaceholder ? 'object-cover' : 'object-contain mix-blend-multiply'
-              } ${isOutOfStock ? 'grayscale' : ''} ${isImageLoading ? 'opacity-0' : 'opacity-100'}`}
+              } ${isOutOfStock ? 'grayscale' : ''} 
+              ${isImageLoading ? 'opacity-0' : 'opacity-100'} 
+              `}
               loading="lazy"
               onLoad={handleImageLoad}
               onError={handleImgError}
             />
+            {/* Update Controls (Only visible on hover if loaded) */}
             {isPlaceholder && !isGenerating && !isBatchMode && !isImageLoading && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/10 hover:bg-slate-900/30 transition-all opacity-0 group-hover:opacity-100 z-10 backdrop-blur-[1px]">
                     <div className="flex gap-2">
@@ -200,6 +209,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             )}
           </>
         ) : (
+          /* Error State */
           <div className="flex flex-col items-center justify-center text-slate-400 w-full h-full bg-slate-50 relative group/error px-4 text-center">
             <div className="mb-2 p-3 bg-white rounded-full shadow-sm">
                 <ImageOff className="w-6 h-6 opacity-50" />
@@ -230,7 +240,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
         
-        {/* Edit Image Button - Visible on Hover when image exists */}
+        {/* Quick Edit Buttons - Visible on Hover when image exists and not in special modes */}
         {!hasFinalError && !isPlaceholder && !isBatchMode && !isImageLoading && (
             <div className="absolute top-3 left-3 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 transform -translate-x-2 group-hover:translate-x-0">
                 <button
