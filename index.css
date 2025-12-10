@@ -72,3 +72,20 @@ img.lazy.loaded {
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
+
+/* Custom Scrollbar Styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
