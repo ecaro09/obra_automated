@@ -245,7 +245,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                         className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-mono focus:ring-2 focus:ring-teal-500 outline-none"
                         placeholder="e.g. TBL-001"
                         required
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !!productToEdit} {/* Disabled when editing */}
                     />
                 </div>
               </div>
