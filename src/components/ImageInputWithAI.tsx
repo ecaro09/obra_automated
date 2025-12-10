@@ -1,7 +1,7 @@
 import React, { useState, useRef, DragEvent, useEffect } from 'react';
 import { X, Upload, Image as ImageIcon, Sparkles, Loader2, RefreshCw, Link, Trash2 } from 'lucide-react';
 import { generateProductImage } from '../services/gemini';
-import { getImageUrl } from '../utils/imageUtils';
+import { getImageUrl } => '../utils/imageUtils';
 
 interface ImageInputWithAIProps {
   value: string; // Current image URL (can be base64, external URL, or AI generated)
