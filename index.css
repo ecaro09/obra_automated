@@ -1,0 +1,58 @@
+/* index.css - Image handling fixes */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ensure images display properly */
+.product-image, img[src*="product"], img[alt*="product"] {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  background-color: #f3f4f6; /* Light gray fallback */
+}
+
+/* Fix for broken images */
+img:not([src]), img[src=""], img[src="#"], img[src="undefined"] {
+  display: none !important;
+}
+
+/* Placeholder for missing images */
+.product-image:before {
+  content: "Image not available";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e5e7eb;
+  color: #6b7280;
+  font-size: 0.875rem;
+  min-height: 200px;
+  border-radius: 0.375rem;
+}
+
+/* Ensure image containers maintain aspect ratio */
+.aspect-ratio-box {
+  position: relative;
+  width: 100%;
+  padding-top: 75%; /* 4:3 aspect ratio */
+  overflow: hidden;
+}
+
+.aspect-ratio-box img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Lazy loading for better performance */
+img.lazy {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+img.lazy.loaded {
+  opacity: 1;
+}
