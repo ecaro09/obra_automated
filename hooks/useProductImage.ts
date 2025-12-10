@@ -5,7 +5,7 @@ import { getImageUrl } from '../utils/imageUtils';
 
 export const useProductImage = (
   product: Product,
-  onUpdateImage?: (id: string, newUrl: string) => void
+  onUpdateImageInState: (id: string, newUrl: string) => void // New prop for centralized update
 ) => {
   const [imgSrc, setImgSrc] = useState<string>(getImageUrl(product.image));
   const [isPlaceholder, setIsPlaceholder] = useState<boolean>(false);
@@ -79,8 +79,8 @@ export const useProductImage = (
           setImgSrc(generatedUrl);
           setIsPlaceholder(false); // It's a real image now
           setHasFinalError(false);
-          // Persist the auto-generated image
-          onUpdateImage?.(product.id, generatedUrl);
+          // Persist the auto-generated image using the centralized function
+          onUpdateImageInState(product.id, generatedUrl);
         } else {
           setHasFinalError(true);
           setIsImageLoading(false); // Stop loading since we have no image to show
@@ -124,8 +124,8 @@ export const useProductImage = (
       setImgSrc(generatedUrl);
       setIsPlaceholder(false);
       setHasFinalError(false);
-      // Persist the generated image
-      onUpdateImage?.(product.id, generatedUrl);
+      // Persist the generated image using the centralized function
+      onUpdateImageInState(product.id, generatedUrl);
     } else {
         console.error("Failed to generate image");
         setIsImageLoading(false); // Ensure loading stops if generation failed
@@ -152,8 +152,8 @@ export const useProductImage = (
             setHasFinalError(false);
             setTriedAIFallback(true);
             setIsImageLoading(false);
-            // Persist only valid images
-            onUpdateImage?.(product.id, resolvedUrl);
+            // Persist only valid images using the centralized function
+            onUpdateImageInState(product.id, resolvedUrl);
         };
 
         tempImg.onerror = () => {

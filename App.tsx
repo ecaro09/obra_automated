@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { ProductCard, BatchStatus } from './components/ProductCard';
@@ -25,14 +24,15 @@ function App() {
     }
   });
 
-  const [imageOverrides, setImageOverrides] = useState<Record<string, string>>(() => {
-    try {
-      const saved = localStorage.getItem('obra_imageOverrides');
-      return saved ? JSON.parse(saved) : {};
-    } catch (e) {
-      return {};
-    }
-  });
+  // Removed imageOverrides state as image updates are now handled directly on the product object.
+  // const [imageOverrides, setImageOverrides] = useState<Record<string, string>>(() => {
+  //   try {
+  //     const saved = localStorage.getItem('obra_imageOverrides');
+  //     return saved ? JSON.parse(saved) : {};
+  //   } catch (e) {
+  //     return {};
+  //   }
+  // });
 
   const [productOverrides, setProductOverrides] = useState<Record<string, Product>>(() => {
     try {
@@ -48,9 +48,10 @@ function App() {
     localStorage.setItem('obra_userProducts', JSON.stringify(userProducts));
   }, [userProducts]);
 
-  useEffect(() => {
-    localStorage.setItem('obra_imageOverrides', JSON.stringify(imageOverrides));
-  }, [imageOverrides]);
+  // Removed useEffect for imageOverrides
+  // useEffect(() => {
+  //   localStorage.setItem('obra_imageOverrides', JSON.stringify(imageOverrides));
+  // }, [imageOverrides]);
 
   useEffect(() => {
     localStorage.setItem('obra_productOverrides', JSON.stringify(productOverrides));
@@ -82,19 +83,20 @@ function App() {
   // Combine static DB with user-added products
   // Applies full product overrides and image overrides
   const allProducts = useMemo(() => {
-    // Process DB Products: Apply product overrides first, then fallback to image overrides
+    // Process DB Products: Apply product overrides
     const dbProducts = PRODUCTS_DB.map(p => {
       const overriddenProduct = productOverrides[p.id] || p;
       return {
         ...overriddenProduct,
-        image: imageOverrides[p.id] || overriddenProduct.image
+        // Image is now part of the productOverrides, no separate imageOverrides map
+        image: overriddenProduct.image 
       };
     });
     
     // User Products are state-managed, so they don't need 'overrides' map logic 
     // (they are updated directly in setUserProducts)
     return [...userProducts, ...dbProducts];
-  }, [userProducts, imageOverrides, productOverrides]);
+  }, [userProducts, productOverrides]); // Removed imageOverrides from dependency array
 
   // Derived Data
   const categories = useMemo(() => 
@@ -264,15 +266,8 @@ function App() {
         }
     }
 
-    // CRITICAL FIX: If we perform a full save, remove any "Quick Edit" image override
-    // so that the image in the full save (productOverrides/userProducts) takes precedence.
-    if (imageOverrides[product.id]) {
-        setImageOverrides(prev => {
-            const next = { ...prev };
-            delete next[product.id];
-            return next;
-        });
-    }
+    // Removed CRITICAL FIX: If we perform a full save, remove any "Quick Edit" image override
+    // as imageOverrides state is removed. The image is now part of the product object itself.
 
     setIsAddProductModalOpen(false);
     setEditingProduct(null);
@@ -288,8 +283,8 @@ function App() {
     setIsAddProductModalOpen(true);
   };
 
-  // Updates product image (persisted in state)
-  const handleUpdateProductImage = (id: string, newUrl: string) => {
+  // Centralized function to update product image in state
+  const updateProductImageInState = (id: string, newUrl: string) => {
     // 1. Check User Products
     if (userProducts.some(p => p.id === id)) {
         setUserProducts(prev => prev.map(p => p.id === id ? { ...p, image: newUrl } : p));
@@ -303,9 +298,17 @@ function App() {
         }));
         return;
     }
-    // 3. Fallback to Image Overrides (DB product, only image edited)
-    setImageOverrides(prev => ({ ...prev, [id]: newUrl }));
+    // 3. If it's a DB product not yet overridden, create an override for its image
+    const dbProduct = PRODUCTS_DB.find(p => p.id === id);
+    if (dbProduct) {
+        setProductOverrides(prev => ({
+            ...prev,
+            [id]: { ...dbProduct, image: newUrl }
+        }));
+    }
   };
+
+  // Removed handleUpdateProductImage as its functionality is now in updateProductImageInState
 
   // --- Batch Mode Handlers ---
 
@@ -354,7 +357,7 @@ function App() {
         try {
             const newUrl = await generateProductImage(product.name, product.description, product.category);
             if (newUrl) {
-                handleUpdateProductImage(id, newUrl);
+                updateProductImageInState(id, newUrl); // Use the new centralized function
                 setBatchStatuses(prev => ({ ...prev, [id]: 'success' }));
             } else {
                 setBatchStatuses(prev => ({ ...prev, [id]: 'error' }));
@@ -508,7 +511,7 @@ function App() {
                 onClick={handleProductClick}
                 onCompare={toggleComparison}
                 onEdit={handleEditProduct}
-                onUpdateImage={handleUpdateProductImage}
+                onUpdateImageInState={updateProductImageInState} {/* Pass the new centralized function */}
                 isComparing={compareList.some(p => p.id === product.id)}
                 // Batch Props
                 isBatchMode={isBatchMode}

@@ -12,7 +12,7 @@ interface ProductCardProps {
   onClick?: (product: Product) => void;
   onCompare?: (product: Product) => void;
   onEdit?: (product: Product) => void;
-  onUpdateImage?: (id: string, newUrl: string) => void;
+  onUpdateImageInState: (id: string, newUrl: string) => void; // Changed prop name
   isComparing?: boolean;
   // Batch Props
   isBatchMode?: boolean;
@@ -27,7 +27,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onClick,
   onCompare,
   onEdit,
-  onUpdateImage,
+  onUpdateImageInState, // Destructure the new prop
   isComparing = false,
   isBatchMode = false,
   isSelected = false,
@@ -36,7 +36,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   
-  // Use custom hook for image logic
+  // Use custom hook for image logic, passing the new update function
   const {
     imgSrc,
     isPlaceholder,
@@ -47,7 +47,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     handleGenerateImage,
     handleEditImage,
     handleImageLoad
-  } = useProductImage(product, onUpdateImage);
+  } = useProductImage(product, onUpdateImageInState); // Pass the new prop here
   
   const finalPrice = calculateFinalPrice(product.price);
   const isOutOfStock = product.stock === 0;
