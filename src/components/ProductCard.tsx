@@ -56,9 +56,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   const handleEditProduct = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Use product.image (the source of truth) if available, otherwise fallback to imgSrc.
-    // This prevents overwriting a valid (but temporarily failing) URL with a placeholder.
-    if (onEdit) onEdit({ ...product, image: product.image || imgSrc });
+    // Pass the original product object to the edit modal. The modal will handle image display and editing.
+    if (onEdit) onEdit(product);
   };
 
   const handleIncrement = (e: React.MouseEvent) => {
