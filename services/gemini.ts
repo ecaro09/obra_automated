@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Chat, GenerateContentResponse, Type } from "@google/genai";
 import { calculateFinalPrice } from "../constants";
 import { Product } from "../types";
@@ -192,52 +191,59 @@ export const generateProductImage = async (productName: string, description: str
 
     const styleContext = categoryKeywords[category] || 'modern minimalist office furniture, professional studio lighting, high-end commercial design';
 
-    try {
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash-image',
-            contents: {
-                parts: [
-                    { 
-                        text: `Generate a photorealistic, high-end commercial product photography image of "${productName}".
+    const maxRetries = 2; // Total attempts: 1 initial + 2 retries
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+        try {
+            const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash-image',
+                contents: {
+                    parts: [
+                        { 
+                            text: `Generate a photorealistic, high-end commercial product photography image of "${productName}".
 
-                        Category: ${category}
-                        Context Keywords: ${styleContext}
-                        Product Description: "${description}"
+                            Category: ${category}
+                            Context Keywords: ${styleContext}
+                            Product Description: "${description}"
 
-                        CRITICAL VISUAL GUIDELINES:
-                        1. **Subject**: Show the ${category || 'furniture'} piece fully assembled, isolated in the center. 
-                        2. **Background**: Pure solid white background (Hex #FFFFFF) or very subtle light grey studio cyclorama to emphasize the product.
-                        3. **Lighting**: Professional studio lighting. Softbox lighting to create smooth highlights on surfaces (wood, glass, metal) and soft shadows underneath to ground the product. Avoid harsh, dark shadows.
-                        4. **Angle**: 
-                           - Tables/Desks: 3/4 perspective view to show legroom, depth, and surface area.
-                           - Cabinets/Shelves: Front 3/4 view to show storage capacity and depth.
-                           - Chairs: 3/4 view.
-                        5. **Style**: Modern, Corporate, Clean, Architectural, Premium quality.
-                        6. **Quality**: 4k resolution, sharp focus throughout the object.
-                        
-                        The image should look like it belongs in a premium office furniture catalog.` 
+                            CRITICAL VISUAL GUIDELINES:
+                            1. **Subject**: Show the ${category || 'furniture'} piece fully assembled, isolated in the center. 
+                            2. **Background**: Pure solid white background (Hex #FFFFFF) or very subtle light grey studio cyclorama to emphasize the product.
+                            3. **Lighting**: Professional studio lighting. Softbox lighting to create smooth highlights on surfaces (wood, glass, metal) and soft shadows underneath to ground the product. Avoid harsh, dark shadows.
+                            4. **Angle**: 
+                               - Tables/Desks: 3/4 perspective view to show legroom, depth, and surface area.
+                               - Cabinets/Shelves: Front 3/4 view to show storage capacity and depth.
+                               - Chairs: 3/4 view.
+                            5. **Style**: Modern, Corporate, Clean, Architectural, Premium quality.
+                            6. **Quality**: 4k resolution, sharp focus throughout the object.
+                            
+                            The image should look like it belongs in a premium office furniture catalog.` 
+                        }
+                    ]
+                },
+                config: {
+                    imageConfig: {
+                        aspectRatio: "1:1",
                     }
-                ]
-            },
-            config: {
-                imageConfig: {
-                    aspectRatio: "1:1",
                 }
-            }
-        });
+            });
 
-        const parts = response.candidates?.[0]?.content?.parts;
-        if (parts) {
-            for (const part of parts) {
-                if (part.inlineData) {
-                    return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+            const parts = response.candidates?.[0]?.content?.parts;
+            if (parts) {
+                for (const part of parts) {
+                    if (part.inlineData) {
+                        return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+                    }
                 }
             }
+        } catch (error) {
+            console.error(`Gemini Image Generation Error (Attempt ${attempt + 1}/${maxRetries}):`, error);
+            // If it's the last attempt, re-throw or return null
+            if (attempt === maxRetries - 1) {
+                return null;
+            }
+            // Add a small delay before retrying
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
         }
-        return null;
-
-    } catch (error) {
-        console.error("Gemini Image Generation Error:", error);
-        return null;
     }
+    return null; // Return null if all retries fail
 };

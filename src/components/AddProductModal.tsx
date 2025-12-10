@@ -93,7 +93,6 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             setFormData(prev => ({ 
                 ...prev, 
                 description: desc,
-                // CRITICAL: Removed explicit image preservation as ImageInputWithAI manages formData.image
             }));
         }
     } catch (err) {

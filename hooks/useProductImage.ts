@@ -59,21 +59,11 @@ export const useProductImage = (
       
       try {
         // Pass full context (Category + Description) for better auto-recovery results
-        let generatedUrl = await generateProductImage(
+        const generatedUrl = await generateProductImage(
             product.name, 
             product.description, 
             product.category
         );
-
-        // Retry mechanism: Try once more if the first attempt fails
-        if (!generatedUrl) {
-            console.warn("First AI generation attempt failed, retrying...");
-            generatedUrl = await generateProductImage(
-                product.name, 
-                product.description, 
-                product.category
-            );
-        }
 
         if (generatedUrl) {
           setImgSrc(generatedUrl);
@@ -105,20 +95,11 @@ export const useProductImage = (
     setIsImageLoading(true); // Show shimmer immediately to hide old image
     
     // Explicitly pass category and description to ensure high-quality context-aware generation
-    let generatedUrl = await generateProductImage(
+    const generatedUrl = await generateProductImage(
         product.name, 
         product.description, 
         product.category
     );
-
-    // Retry mechanism for manual generation as well
-    if (!generatedUrl) {
-        generatedUrl = await generateProductImage(
-            product.name, 
-            product.description, 
-            product.category
-        );
-    }
     
     if (generatedUrl) {
       setImgSrc(generatedUrl);
