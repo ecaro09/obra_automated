@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Sparkles, Loader2, Edit, X } from 'lucide-react';
-import { generateProductImage } from '../services/gemini';
-import { getImageUrl } from '../utils/imageUtils';
+import { generateProductImage } from '@/src/services/gemini';
+import { getImageUrl } from '@/src/utils/imageUtils';
 
 interface ImageInputWithAIProps {
   value: string;

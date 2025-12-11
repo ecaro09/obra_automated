@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Plus, Tag, AlertCircle, Minus, Image as ImageIcon, Sparkles, Loader2, Scale, Pencil, Link, ImageOff, CheckCircle2, XCircle, FileEdit, Check, Ruler, Layers } from 'lucide-react';
-import { Product } from '../types';
-import { calculateFinalPrice } from '../constants';
-import { useProductImage } from '../hooks/useProductImage';
+import { Product } from '@/src/types';
+import { calculateFinalPrice } from '@/src/constants';
+import { useProductImage } from '@/src/hooks/useProductImage';
 
 export type BatchStatus = 'idle' | 'generating' | 'success' | 'error';
 
@@ -316,10 +316,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">Price</span>
               <span className="text-lg font-bold text-teal-700">
                 ₱{finalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </span>
-              {/* New: Prominent Stock Display */}
-              <span className={`text-sm font-medium mt-1 ${isOutOfStock ? 'text-red-600' : 'text-slate-600'}`}>
-                {isOutOfStock ? 'Out of Stock' : `Stock: ${product.stock}`}
               </span>
             </div>
             

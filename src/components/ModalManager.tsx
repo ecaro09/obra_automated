@@ -1,9 +1,9 @@
 import React from 'react';
-import { QuoteModal } from './QuoteModal';
-import { ProductDetailsModal } from './ProductDetailsModal';
-import { AddProductModal } from './AddProductModal';
-import { ComparisonModal } from './ComparisonModal';
-import { Product, CartItem } from '../types';
+import { QuoteModal } from '@/src/components/QuoteModal';
+import { ProductDetailsModal } from '@/src/components/ProductDetailsModal';
+import { AddProductModal } from '@/src/components/AddProductModal';
+import { ComparisonModal } from '@/src/components/ComparisonModal';
+import { Product, CartItem } from '@/src/types';
 
 interface ModalManagerProps {
   // Quote Modal

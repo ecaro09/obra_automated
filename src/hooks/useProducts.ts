@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Product } from '../types';
-import { PRODUCTS_DB } from '../constants';
+import { Product } from '@/src/types';
+import { PRODUCTS_DB } from '@/src/constants';
 
 export const useProducts = () => {
   const [userProducts, setUserProducts] = useState<Product[]>(() => {

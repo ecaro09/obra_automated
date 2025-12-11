@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Check, Sparkles, Loader2, Barcode, Ruler, Send } from 'lucide-react';
-import { Product, Variant } from '../types';
-import { generateProductDescription, generateProductImage } from '../services/gemini'; // Ensure generateProductImage is imported for fallback
-import { ImageInputWithAI } from './ImageInputWithAI';
+import { Product, Variant } from '@/src/types';
+import { generateProductDescription, generateProductImage } from '@/src/services/gemini'; // Ensure generateProductImage is imported for fallback
+import { ImageInputWithAI } from '@/src/components/ImageInputWithAI';
 
 interface AddProductModalProps {
   isOpen: boolean;
@@ -245,7 +245,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                         className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-mono focus:ring-2 focus:ring-teal-500 outline-none"
                         placeholder="e.g. TBL-001"
                         required
-                        disabled={isSubmitting || !!productToEdit} {/* Disabled when editing */}
+                        disabled={isSubmitting || !!productToEdit} 
                     />
                 </div>
               </div>

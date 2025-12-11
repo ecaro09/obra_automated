@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
-import { Product } from '../types';
-import { searchProducts } from '../services/gemini';
+import React, { useState, useMemo } from 'react';
+import { Product } from '@/src/types';
+import { searchProducts } from '@/src/services/gemini';
 
 export const useSearchAndFilter = (allProducts: Product[]) => {
   const [searchTerm, setSearchTerm] = useState('');
