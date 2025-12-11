@@ -1,10 +1,10 @@
 import React from 'react';
-import { Dashboard } from '@/components/Dashboard';
-import { Product } from '@/types';
+import { Dashboard } from '@/src/components/Dashboard';
+import { Product } from '@/src/types';
 import { Image as ImageIcon, Loader2, Sparkles } from 'lucide-react';
-import { ProductSearchAndFilter } from '@/components/ProductSearchAndFilter';
-import { ProductGrid } from '@/components/ProductGrid';
-import { BatchStatus } from '@/components/ProductCard'; // Import BatchStatus type
+import { ProductSearchAndFilter } from '@/src/components/ProductSearchAndFilter';
+import { ProductGrid } from '@/src/components/ProductGrid';
+import { BatchStatus } from '@/src/components/ProductCard'; // Import BatchStatus type
 
 interface ProductCatalogSectionProps {
   allProducts: Product[];

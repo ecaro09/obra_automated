@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, Send, X, Loader2, Sparkles } from 'lucide-react';
-import { sendMessage } from '@/services/gemini';
-import { Product } from '@/types';
+import { sendMessage } from '@/src/services/gemini';
+import { Product } from '@/src/types';
 
 interface ChatAssistantProps {
     products?: Product[];

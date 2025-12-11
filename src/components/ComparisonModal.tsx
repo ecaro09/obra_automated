@@ -1,8 +1,8 @@
 import React from 'react';
 import { X, Trash2, Check, AlertCircle, ShoppingCart } from 'lucide-react';
-import { Product } from '@/types';
-import { calculateFinalPrice } from '@/constants';
-import { getImageUrl } from '@/utils/imageUtils';
+import { Product } from '@/src/types';
+import { calculateFinalPrice } from '@/src/constants';
+import { getImageUrl } from '@/src/utils/imageUtils';
 
 interface ComparisonModalProps {
   isOpen: boolean;

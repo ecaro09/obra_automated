@@ -1,6 +1,6 @@
 import React from 'react';
-import { ProductCard, BatchStatus } from '@/components/ProductCard';
-import { Product } from '@/types';
+import { ProductCard, BatchStatus } from '@/src/components/ProductCard';
+import { Product } from '@/src/types';
 import { Search } from 'lucide-react';
 
 interface ProductGridProps {
