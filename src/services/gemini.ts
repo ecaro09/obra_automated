@@ -1,6 +1,6 @@
 import { GoogleGenAI, Chat, GenerateContentResponse, Type } from "@google/genai";
-import { calculateFinalPrice } from '@/src/constants';
-import { Product } from '@/src/types';
+import { calculateFinalPrice } from '@/constants';
+import { Product } from '@/types';
 
 let chatSession: Chat | null = null;
 let lastUsedProductsHash: string = "";

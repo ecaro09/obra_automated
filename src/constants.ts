@@ -1,4 +1,4 @@
-import { Product } from '@/src/types';
+import { Product } from '@/types';
 
 // New Pricing Logic: 
 // 10% Markup for < 10,000

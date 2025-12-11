@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
-import { CartItem, Product } from '@/src/types';
-import { calculateFinalPrice } from '@/src/constants';
+import { CartItem, Product } from '@/types';
+import { calculateFinalPrice } from '@/constants';
 
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);

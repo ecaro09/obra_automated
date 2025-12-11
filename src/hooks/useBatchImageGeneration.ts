@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Product } from '@/src/types';
-import { generateProductImage } from '@/src/services/gemini';
+import { Product } from '@/types';
+import { generateProductImage } from '@/services/gemini';
 
 export type BatchStatus = 'idle' | 'generating' | 'success' | 'error';
 

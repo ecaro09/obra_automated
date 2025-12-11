@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Product } from '@/src/types';
+import { Product } from '@/types';
 
 export const useComparison = () => {
   const [compareList, setCompareList] = useState<Product[]>([]);

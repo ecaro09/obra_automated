@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Trash2, Printer, Plus, Minus, User, MapPin, Phone, Mail, Ruler, FileText, Download } from 'lucide-react';
-import { CartItem } from '@/src/types';
-import { getImageUrl } from '@/src/utils/imageUtils';
+import { CartItem } from '@/types';
+import { getImageUrl } from '@/utils/imageUtils';
 
 interface QuoteModalProps {
   isOpen: boolean;

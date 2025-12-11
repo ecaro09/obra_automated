@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Product } from '@/src/types';
-import { generateProductImage } from '@/src/services/gemini';
-import { getImageUrl } from '@/src/utils/imageUtils';
+import { Product } from '@/types';
+import { generateProductImage } from '@/services/gemini';
+import { getImageUrl } from '@/utils/imageUtils';
 
 export const useProductImage = (
   product: Product,
