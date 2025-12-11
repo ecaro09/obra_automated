@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { X, ShoppingCart, Tag, Check, AlertCircle, Minus, Plus, Ruler, Barcode, Package, Link as LinkIcon } from 'lucide-react';
-import { Product } from '@/src/types';
-import { calculateFinalPrice } from '@/src/constants';
-import { getImageUrl } from '@/src/utils/imageUtils';
+import { Product } from '@/types';
+import { calculateFinalPrice } from '@/constants';
+import { getImageUrl } from '@/utils/imageUtils';
 
 interface ProductDetailsModalProps {
   isOpen: boolean;

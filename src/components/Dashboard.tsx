@@ -1,6 +1,6 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Product, CategoryData } from '@/src/types';
+import { Product, CategoryData } from '@/types';
 
 interface DashboardProps {
   products: Product[];

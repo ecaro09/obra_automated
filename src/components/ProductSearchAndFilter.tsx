@@ -1,6 +1,6 @@
 import React from 'react';
 import { Search, Sparkles, Loader2, XCircle, Layers } from 'lucide-react';
-import { Product } from '@/src/types';
+import { Product } from '@/types';
 
 interface ProductSearchAndFilterProps {
   allProducts: Product[]; // Needed for categories

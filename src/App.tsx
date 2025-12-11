@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Navbar } from '@/src/components/Navbar';
-import { ChatAssistant } from '@/src/components/ChatAssistant';
-import { ProductCatalogSection } from '@/src/components/ProductCatalogSection';
-import { ModalManager } from '@/src/components/ModalManager';
-import { useProducts } from '@/src/hooks/useProducts';
-import { useCart } from '@/src/hooks/useCart';
-import { useComparison } from '@/src/hooks/useComparison';
-import { useSearchAndFilter } from '@/src/hooks/useSearchAndFilter';
-import { useBatchImageGeneration } from '@/src/hooks/useBatchImageGeneration';
-import { Product } from '@/src/types';
+import { Navbar } from '@/components/Navbar';
+import { ChatAssistant } from '@/components/ChatAssistant';
+import { ProductCatalogSection } from '@/components/ProductCatalogSection';
+import { ModalManager } from '@/components/ModalManager';
+import { useProducts } from '@/hooks/useProducts';
+import { useCart } from '@/hooks/useCart';
+import { useComparison } from '@/hooks/useComparison';
+import { useSearchAndFilter } from '@/hooks/useSearchAndFilter';
+import { useBatchImageGeneration } from '@/hooks/useBatchImageGeneration';
+import { Product } from '@/types';
 import { Scale } from 'lucide-react';
 
 function App() {
