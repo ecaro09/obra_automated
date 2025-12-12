@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Tag, AlertCircle, Minus, Image as ImageIcon, Sparkles, Loader2, Scale, Pencil, Link, ImageOff, CheckCircle2, XCircle, FileEdit, Check, Ruler, Layers } from 'lucide-react';
 import { Product } from '@/src/types';
-import { calculateFinalPrice } from '@/src/constants';
+import { calculateFinalPrice } from '@/src/utils/pricingUtils';
 import { useProductImage } from '@/src/hooks/useProductImage';
 
 export type BatchStatus = 'idle' | 'generating' | 'success' | 'error';

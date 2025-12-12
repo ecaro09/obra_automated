@@ -1,5 +1,5 @@
 import { GoogleGenAI, Chat, GenerateContentResponse, Type } from "@google/genai";
-import { calculateFinalPrice } from '@/constants';
+import { calculateFinalPrice } from '@/utils/pricingUtils'; // Updated import
 import { Product } from '@/types';
 
 let chatSession: Chat | null = null;

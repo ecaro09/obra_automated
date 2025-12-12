@@ -1,25 +1,5 @@
 import { Product } from '@/types';
-
-// New Pricing Logic: 
-// 10% Markup for < 10,000
-// 7% Markup for >= 10,000
-// Ends in 9
-export const calculateFinalPrice = (basePrice: number): number => {
-    let rate = 0.10;
-    if (basePrice >= 10000) {
-        rate = 0.07;
-    }
-    const withMarkup = basePrice * (1 + rate);
-    // Logic: Floor to nearest 10, then add 9. (e.g., 5500 -> 5509, 5504 -> 5509)
-    return Math.floor(withMarkup / 10) * 10 + 9;
-};
-
-// Helper to generate consistent, high-quality AI product images on the fly
-const getImg = (id: string, category: string, name: string) => {
-  const seed = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const prompt = `professional product photography of ${name}, ${category}, white background, soft studio lighting, modern furniture design, high resolution, 4k, minimalistic`;
-  return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=800&height=800&nologo=true&seed=${seed}`;
-};
+import { getPlaceholderImgUrl } from '@/utils/imageGenerationUtils';
 
 export const PRODUCTS_DB: Product[] = [
   {
@@ -30,7 +10,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Standard Size",
     "price": 25800.00,
     "category": "Executive Table",
-    "image": getImg("944EOT", "Executive Table", "EXECUTIVE GLASS TOP TABLE"),
+    "image": getPlaceholderImgUrl("944EOT", "Executive Table", "EXECUTIVE GLASS TOP TABLE"),
     "stock": 10
   },
   {
@@ -41,7 +21,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 20583.33,
     "category": "Executive Table",
-    "image": getImg("NKT-0311", "Executive Table", "EXECUTIVE GLASS TOP TABLE"),
+    "image": getPlaceholderImgUrl("NKT-0311", "Executive Table", "EXECUTIVE GLASS TOP TABLE"),
     "stock": 10,
     "variants": [
       {
@@ -62,7 +42,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 21135.00,
     "category": "Executive Table",
-    "image": getImg("NKT-0031", "Executive Table", "EXECUTIVE TABLE"),
+    "image": getPlaceholderImgUrl("NKT-0031", "Executive Table", "EXECUTIVE TABLE"),
     "stock": 10,
     "variants": [
       {
@@ -83,7 +63,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 24685.00,
     "category": "Executive Table",
-    "image": getImg("JAA-EXECUTIVE", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("JAA-EXECUTIVE", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10,
     "variants": [
        {
@@ -104,7 +84,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 18515.00,
     "category": "Executive Table",
-    "image": getImg("SH102", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("SH102", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10,
     "variants": [
       {
@@ -125,7 +105,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 15000.00,
     "category": "Executive Table",
-    "image": getImg("16051", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("16051", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -146,7 +126,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 14600.00,
     "category": "Executive Table",
-    "image": getImg("103", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("103", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -167,7 +147,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 17000.00,
     "category": "Executive Table",
-    "image": getImg("SQ-17", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("SQ-17", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -190,7 +170,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 15500.00,
     "category": "Executive Table",
-    "image": getImg("NKT-008", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("NKT-008", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -212,7 +192,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L160cm x W80cm x H76cm",
     "price": 16750.00,
     "category": "Executive Table",
-    "image": getImg("SQ-6116", "Executive Table", "EXECUTIVE TABLE"),
+    "image": getPlaceholderImgUrl("SQ-6116", "Executive Table", "EXECUTIVE TABLE"),
     "stock": 10
   },
   {
@@ -223,7 +203,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 18600.00,
     "category": "Executive Table",
-    "image": getImg("NKT-012", "Executive Table", "EXECUTIVE TABLE"),
+    "image": getPlaceholderImgUrl("NKT-012", "Executive Table", "EXECUTIVE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -244,7 +224,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L180cm x W90cm x H75cm",
     "price": 26570.00,
     "category": "Executive Table",
-    "image": getImg("DB3020", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("DB3020", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10
   },
   {
@@ -255,7 +235,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L160cm x W80cm x H75cm",
     "price": 18860.00,
     "category": "Executive Table",
-    "image": getImg("59-16", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("59-16", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10
   },
   {
@@ -266,7 +246,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L180cm x W80cm x H80cm",
     "price": 33430.00,
     "category": "Executive Table",
-    "image": getImg("03-2018", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("03-2018", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10
   },
   {
@@ -277,7 +257,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L160cm x W80cm x H75cm",
     "price": 19730.00,
     "category": "Executive Table",
-    "image": getImg("ST104-16", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
+    "image": getPlaceholderImgUrl("ST104-16", "Executive Table", "EXECUTIVE L-TYPE TABLE"),
     "stock": 10
   },
   {
@@ -288,7 +268,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 14110.00,
     "category": "Executive Table",
-    "image": getImg("TR-142", "Executive Table", "EXECUTIVE TABLE"),
+    "image": getPlaceholderImgUrl("TR-142", "Executive Table", "EXECUTIVE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -311,7 +291,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L40cm x W40cm x H62cm",
     "price": 2535.00,
     "category": "Cabinet & Storage",
-    "image": getImg("MP-TR142", "Cabinet & Storage", "MOBILE PEDESTAL"),
+    "image": getPlaceholderImgUrl("MP-TR142", "Cabinet & Storage", "MOBILE PEDESTAL"),
     "stock": 10
   },
   {
@@ -322,7 +302,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L180cm x W80cm x H75cm",
     "price": 12900.00,
     "category": "Executive Table",
-    "image": getImg("NKT023", "Executive Table", "EXECUTIVE TABLE"),
+    "image": getPlaceholderImgUrl("NKT023", "Executive Table", "EXECUTIVE TABLE"),
     "stock": 10
   },
   {
@@ -333,7 +313,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 17740.00,
     "category": "Executive Table",
-    "image": getImg("LPMA27", "Executive Table", "EXECUTIVE TABLE SET"),
+    "image": getPlaceholderImgUrl("LPMA27", "Executive Table", "EXECUTIVE TABLE SET"),
     "stock": 10,
     "variants": [
         {
@@ -354,7 +334,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 17740.00,
     "category": "Executive Table",
-    "image": getImg("LPMA26", "Executive Table", "EXECUTIVE TABLE"),
+    "image": getPlaceholderImgUrl("LPMA26", "Executive Table", "EXECUTIVE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -375,7 +355,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L40cm x W41cm x H62cm",
     "price": 2535.00,
     "category": "Cabinet & Storage",
-    "image": getImg("MP-26", "Cabinet & Storage", "MOBILE PEDESTAL"),
+    "image": getPlaceholderImgUrl("MP-26", "Cabinet & Storage", "MOBILE PEDESTAL"),
     "stock": 10
   },
   {
@@ -386,7 +366,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L80cm x W40cm x H75cm",
     "price": 4670.00,
     "category": "Cabinet & Storage",
-    "image": getImg("SD-26", "Cabinet & Storage", "SIDE DRAWER"),
+    "image": getPlaceholderImgUrl("SD-26", "Cabinet & Storage", "SIDE DRAWER"),
     "stock": 10
   },
   {
@@ -397,7 +377,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 10535.00,
     "category": "Office Table",
-    "image": getImg("IFTABLEONLY", "Office Table", "OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("IFTABLEONLY", "Office Table", "OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -418,7 +398,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L140cm x W60cm x H75cm",
     "price": 12600.00,
     "category": "Office Table",
-    "image": getImg("SH-3014", "Office Table", "L-TYPE OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("SH-3014", "Office Table", "L-TYPE OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -429,7 +409,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L140cm x W60cm x H75cm",
     "price": 9600.00,
     "category": "Office Table",
-    "image": getImg("SQ-7904", "Office Table", "L-TYPE OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("SQ-7904", "Office Table", "L-TYPE OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -440,7 +420,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 10700.00,
     "category": "Office Table",
-    "image": getImg("OT-1415", "Office Table", "L-TYPE OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-1415", "Office Table", "L-TYPE OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -451,7 +431,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 6670.00,
     "category": "Office Table",
-    "image": getImg("LT1.4M", "Office Table", "L-TYPE OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("LT1.4M", "Office Table", "L-TYPE OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -462,7 +442,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 9240.00,
     "category": "Office Table",
-    "image": getImg("NKT-0011", "Office Table", "GLASS TOP OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("NKT-0011", "Office Table", "GLASS TOP OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -483,7 +463,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 4975.00,
     "category": "Office Table",
-    "image": getImg("AMS7907", "Office Table", "FOLDABLE OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("AMS7907", "Office Table", "FOLDABLE OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -494,7 +474,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 3270.00,
     "category": "Office Table",
-    "image": getImg("TT-F-TABLES", "Office Table", "FOLDABLE TABLE"),
+    "image": getPlaceholderImgUrl("TT-F-TABLES", "Office Table", "FOLDABLE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -526,7 +506,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 1650.00,
     "category": "Office Table",
-    "image": getImg("TTFME", "Office Table", "FOLDABLE TABLE FRAME"),
+    "image": getPlaceholderImgUrl("TTFME", "Office Table", "FOLDABLE TABLE FRAME"),
     "stock": 10,
     "variants": [
         {
@@ -547,7 +527,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L100cm x W40cm x H70cm",
     "price": 1560.00,
     "category": "Office Table",
-    "image": getImg("RK-BGZ1040AG", "Office Table", "STUDY TABLE"),
+    "image": getPlaceholderImgUrl("RK-BGZ1040AG", "Office Table", "STUDY TABLE"),
     "stock": 10
   },
   {
@@ -558,7 +538,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L95cm x W48cm x H76cm",
     "price": 2895.00,
     "category": "Office Table",
-    "image": getImg("RK-SZ954876LG", "Office Table", "STUDY TABLE"),
+    "image": getPlaceholderImgUrl("RK-SZ954876LG", "Office Table", "STUDY TABLE"),
     "stock": 10
   },
   {
@@ -569,7 +549,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L102cm x W58cm x H85cm",
     "price": 4750.00,
     "category": "Office Table",
-    "image": getImg("RK-SZ1025885", "Office Table", "STUDY TABLE"),
+    "image": getPlaceholderImgUrl("RK-SZ1025885", "Office Table", "STUDY TABLE"),
     "stock": 10
   },
   {
@@ -580,7 +560,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W73cm x H75cm",
     "price": 2220.00,
     "category": "Office Table",
-    "image": getImg("RK-BGZ1207375G", "Office Table", "L-TYPE STUDY TABLE"),
+    "image": getPlaceholderImgUrl("RK-BGZ1207375G", "Office Table", "L-TYPE STUDY TABLE"),
     "stock": 10
   },
   {
@@ -591,7 +571,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L100cm x W52cm x H122cm",
     "price": 2750.00,
     "category": "Office Table",
-    "image": getImg("RK-DNZ1048DG", "Office Table", "STUDY TABLE"),
+    "image": getPlaceholderImgUrl("RK-DNZ1048DG", "Office Table", "STUDY TABLE"),
     "stock": 10
   },
   {
@@ -602,7 +582,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 6250.00,
     "category": "Office Table",
-    "image": getImg("SH-512", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("SH-512", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -613,7 +593,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 6680.00,
     "category": "Office Table",
-    "image": getImg("OT-812", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-812", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -624,7 +604,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L140cm x W70cm x H75cm",
     "price": 8250.00,
     "category": "Office Table",
-    "image": getImg("OT5003", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT5003", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -635,7 +615,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L140cm x W70cm x H75cm",
     "price": 8670.00,
     "category": "Office Table",
-    "image": getImg("OT614", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT614", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -646,7 +626,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L140cm x W70cm x H75cm",
     "price": 9500.00,
     "category": "Office Table",
-    "image": getImg("NKT-011", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("NKT-011", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -657,7 +637,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 7250.00,
     "category": "Office Table",
-    "image": getImg("OT-143M-SERIES", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-143M-SERIES", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -678,7 +658,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L140cm x W70cm x H75cm",
     "price": 9100.00,
     "category": "Office Table",
-    "image": getImg("NKT-009", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("NKT-009", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -689,7 +669,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 5400.00,
     "category": "Office Table",
-    "image": getImg("OT-7000-SERIES", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-7000-SERIES", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -710,7 +690,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 8290.00,
     "category": "Office Table",
-    "image": getImg("NKT-0101", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("NKT-0101", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -731,7 +711,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 4550.00,
     "category": "Office Table",
-    "image": getImg("NKT-0061", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("NKT-0061", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -752,7 +732,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 4870.00,
     "category": "Office Table",
-    "image": getImg("OT-608B-SERIES", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-608B-SERIES", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -773,7 +753,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 4670.00,
     "category": "Office Table",
-    "image": getImg("OT-9022", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-9022", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -794,7 +774,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 4550.00,
     "category": "Office Table",
-    "image": getImg("SQ-1712", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("SQ-1712", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -805,7 +785,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 4660.00,
     "category": "Office Table",
-    "image": getImg("OT-209", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-209", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -816,7 +796,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 3000.00,
     "category": "Office Table",
-    "image": getImg("OT-108-SERIES", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-108-SERIES", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -837,7 +817,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 5170.00,
     "category": "Office Table",
-    "image": getImg("OT-9012", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-9012", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -848,7 +828,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 4370.00,
     "category": "Office Table",
-    "image": getImg("OT-9011A", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-9011A", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10,
     "variants": [
         {
@@ -869,7 +849,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 5745.00,
     "category": "Office Table",
-    "image": getImg("OT-1206", "Office Table", "JR. OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-1206", "Office Table", "JR. OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -880,7 +860,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 5700.00,
     "category": "Office Table",
-    "image": getImg("OT-1788", "Office Table", "METAL OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("OT-1788", "Office Table", "METAL OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -891,7 +871,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 5145.00,
     "category": "Office Table",
-    "image": getImg("GF-Z014", "Office Table", "METAL OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("GF-Z014", "Office Table", "METAL OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -902,7 +882,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 7890.00,
     "category": "Office Table",
-    "image": getImg("GF-Z010", "Office Table", "METAL OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("GF-Z010", "Office Table", "METAL OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -913,7 +893,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 12400.00,
     "category": "Office Table",
-    "image": getImg("ODK1A", "Office Table", "METAL OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("ODK1A", "Office Table", "METAL OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -924,7 +904,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W60cm x H75cm",
     "price": 12000.00,
     "category": "Office Table",
-    "image": getImg("ODKH", "Office Table", "METAL OFFICE TABLE"),
+    "image": getPlaceholderImgUrl("ODKH", "Office Table", "METAL OFFICE TABLE"),
     "stock": 10
   },
   {
@@ -935,7 +915,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 25715.00,
     "category": "Partition",
-    "image": getImg("B12045-L-TYPE", "Partition", "PARTITION L-Type Cubicle"),
+    "image": getPlaceholderImgUrl("B12045-L-TYPE", "Partition", "PARTITION L-Type Cubicle"),
     "stock": 10,
     "variants": [
         {
@@ -959,7 +939,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 17145.00,
     "category": "Partition",
-    "image": getImg("B12045-STRAIGHT", "Partition", "PARTITION Straight-Type"),
+    "image": getPlaceholderImgUrl("B12045-STRAIGHT", "Partition", "PARTITION Straight-Type"),
     "stock": 10,
     "variants": [
         {
@@ -983,7 +963,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Varies by Selection",
     "price": 190.00,
     "category": "Partition",
-    "image": getImg("PARTITION-GLASS", "Partition", "PARTITION FROSTED GLASS"),
+    "image": getPlaceholderImgUrl("PARTITION-GLASS", "Partition", "PARTITION FROSTED GLASS"),
     "stock": 10,
     "variants": [
         {
@@ -1006,7 +986,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "8ft x 4ft",
     "price": 825.00,
     "category": "Accessories",
-    "image": getImg("1FMDF4MBL", "Accessories", "MDF Board"),
+    "image": getPlaceholderImgUrl("1FMDF4MBL", "Accessories", "MDF Board"),
     "stock": 10
   },
   {
@@ -1017,7 +997,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "8ft x 4ft",
     "price": 2000.00,
     "category": "Accessories",
-    "image": getImg("2FMDF25MOW", "Accessories", "MDF Board"),
+    "image": getPlaceholderImgUrl("2FMDF25MOW", "Accessories", "MDF Board"),
     "stock": 10
   },
   {
@@ -1028,7 +1008,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "8ft x 6ft",
     "price": 2500.00,
     "category": "Accessories",
-    "image": getImg("NLMDF25MM", "Accessories", "MDF Board"),
+    "image": getPlaceholderImgUrl("NLMDF25MM", "Accessories", "MDF Board"),
     "stock": 10
   },
   {
@@ -1039,7 +1019,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "240cm x 120cm",
     "price": 5660.00,
     "category": "Reception & Conference",
-    "image": getImg("CTF240FME", "Reception & Conference", "CONFERENCE TABLE FRAME"),
+    "image": getPlaceholderImgUrl("CTF240FME", "Reception & Conference", "CONFERENCE TABLE FRAME"),
     "stock": 10
   },
   {
@@ -1050,7 +1030,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Standard Size",
     "price": 2125.00,
     "category": "Reception & Conference",
-    "image": getImg("MCTFME", "Reception & Conference", "CONFERENCE TABLE FRAME"),
+    "image": getPlaceholderImgUrl("MCTFME", "Reception & Conference", "CONFERENCE TABLE FRAME"),
     "stock": 10
   },
   {
@@ -1061,7 +1041,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "120cm x 60cm",
     "price": 1970.00,
     "category": "Office Table",
-    "image": getImg("OPHCTFME1.2M", "Office Table", "OFFICE TABLE FRAME"),
+    "image": getPlaceholderImgUrl("OPHCTFME1.2M", "Office Table", "OFFICE TABLE FRAME"),
     "stock": 10
   },
   {
@@ -1072,7 +1052,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Standard Size",
     "price": 365.00,
     "category": "Accessories",
-    "image": getImg("ALOLTPNL", "Accessories", "ALUMINUM OUTLET PANEL"),
+    "image": getPlaceholderImgUrl("ALOLTPNL", "Accessories", "ALUMINUM OUTLET PANEL"),
     "stock": 10
   },
   {
@@ -1083,7 +1063,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "80cm x 30cm",
     "price": 325.00,
     "category": "Accessories",
-    "image": getImg("DD80x30", "Accessories", "DESK DIVIDER"),
+    "image": getPlaceholderImgUrl("DD80x30", "Accessories", "DESK DIVIDER"),
     "stock": 10
   },
   {
@@ -1094,7 +1074,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "Standard Size",
     "price": 48.00,
     "category": "Accessories",
-    "image": getImg("DDC", "Accessories", "DESK DIVIDER CLIP"),
+    "image": getPlaceholderImgUrl("DDC", "Accessories", "DESK DIVIDER CLIP"),
     "stock": 10
   },
   {
@@ -1105,7 +1085,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "120cm x 60cm",
     "price": 3000.00,
     "category": "Office Table",
-    "image": getImg("CT1708FME1.2M", "Office Table", "OFFICE TABLE FRAME"),
+    "image": getPlaceholderImgUrl("CT1708FME1.2M", "Office Table", "OFFICE TABLE FRAME"),
     "stock": 10
   },
   {
@@ -1116,7 +1096,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W45cm x H183cm",
     "price": 6195.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-067", "Cabinet & Storage", "METAL RACK"),
+    "image": getPlaceholderImgUrl("WLS-067", "Cabinet & Storage", "METAL RACK"),
     "stock": 10
   },
   {
@@ -1127,7 +1107,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W45cm x H183cm",
     "price": 5145.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-066", "Cabinet & Storage", "METAL RACK"),
+    "image": getPlaceholderImgUrl("WLS-066", "Cabinet & Storage", "METAL RACK"),
     "stock": 10
   },
   {
@@ -1138,7 +1118,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L120cm x W45cm x H200cm",
     "price": 8935.00,
     "category": "Cabinet & Storage",
-    "image": getImg("XS-OD120cm", "Cabinet & Storage", "METAL RACK"),
+    "image": getPlaceholderImgUrl("XS-OD120cm", "Cabinet & Storage", "METAL RACK"),
     "stock": 10
   },
   {
@@ -1149,7 +1129,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W45cm x H200cm",
     "price": 7915.00,
     "category": "Cabinet & Storage",
-    "image": getImg("XS-OD90cm", "Cabinet & Storage", "METAL RACK"),
+    "image": getPlaceholderImgUrl("XS-OD90cm", "Cabinet & Storage", "METAL RACK"),
     "stock": 10
   },
   {
@@ -1160,7 +1140,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L40cm x W56cm x H66cm",
     "price": 4670.00,
     "category": "Cabinet & Storage",
-    "image": getImg("GFHF006", "Cabinet & Storage", "METAL MOBILE PEDESTAL"),
+    "image": getPlaceholderImgUrl("GFHF006", "Cabinet & Storage", "METAL MOBILE PEDESTAL"),
     "stock": 10
   },
   {
@@ -1171,7 +1151,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L39cm x W50cm x H60cm",
     "price": 3850.00,
     "category": "Cabinet & Storage",
-    "image": getImg("L-101-F", "Cabinet & Storage", "METAL MOBILE PEDESTAL"),
+    "image": getPlaceholderImgUrl("L-101-F", "Cabinet & Storage", "METAL MOBILE PEDESTAL"),
     "stock": 10
   },
   {
@@ -1182,7 +1162,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L62cm x W46cm x H134cm",
     "price": 8000.00,
     "category": "Cabinet & Storage",
-    "image": getImg("DG-D4", "Cabinet & Storage", "FILING CABINET"),
+    "image": getPlaceholderImgUrl("DG-D4", "Cabinet & Storage", "FILING CABINET"),
     "stock": 10
   },
   {
@@ -1193,7 +1173,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L62cm x W46cm x H103cm",
     "price": 6800.00,
     "category": "Cabinet & Storage",
-    "image": getImg("DG3", "Cabinet & Storage", "FILING CABINET"),
+    "image": getPlaceholderImgUrl("DG3", "Cabinet & Storage", "FILING CABINET"),
     "stock": 10
   },
   {
@@ -1204,7 +1184,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W45cm x H72cm",
     "price": 6700.00,
     "category": "Cabinet & Storage",
-    "image": getImg("LD-A2", "Cabinet & Storage", "LATERAL FILING CABINET"),
+    "image": getPlaceholderImgUrl("LD-A2", "Cabinet & Storage", "LATERAL FILING CABINET"),
     "stock": 10
   },
   {
@@ -1215,7 +1195,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W45cm x H103cm",
     "price": 9300.00,
     "category": "Cabinet & Storage",
-    "image": getImg("LD-A3", "Cabinet & Storage", "LATERAL FILING CABINET"),
+    "image": getPlaceholderImgUrl("LD-A3", "Cabinet & Storage", "LATERAL FILING CABINET"),
     "stock": 10
   },
   {
@@ -1226,7 +1206,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W45cm x H133cm",
     "price": 11300.00,
     "category": "Cabinet & Storage",
-    "image": getImg("LD-A4", "Cabinet & Storage", "LATERAL FILING CABINET"),
+    "image": getPlaceholderImgUrl("LD-A4", "Cabinet & Storage", "LATERAL FILING CABINET"),
     "stock": 10
   },
   {
@@ -1237,7 +1217,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W45cm x H133cm",
     "price": 11300.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-004-4D", "Cabinet & Storage", "LATERAL FILING CABINET"),
+    "image": getPlaceholderImgUrl("WLS-004-4D", "Cabinet & Storage", "LATERAL FILING CABINET"),
     "stock": 10
   },
   {
@@ -1248,7 +1228,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W45cm x H103cm",
     "price": 9300.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-004-3D", "Cabinet & Storage", "LATERAL FILING CABINET"),
+    "image": getPlaceholderImgUrl("WLS-004-3D", "Cabinet & Storage", "LATERAL FILING CABINET"),
     "stock": 10
   },
   {
@@ -1259,7 +1239,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W40cm x H185cm",
     "price": 10835.00,
     "category": "Cabinet & Storage",
-    "image": getImg("FC-A18", "Cabinet & Storage", "METAL CABINET"),
+    "image": getPlaceholderImgUrl("FC-A18", "Cabinet & Storage", "METAL CABINET"),
     "stock": 10
   },
   {
@@ -1270,7 +1250,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W50cm x H185cm",
     "price": 10835.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-026", "Cabinet & Storage", "METAL CABINET"),
+    "image": getPlaceholderImgUrl("WLS-026", "Cabinet & Storage", "METAL CABINET"),
     "stock": 10
   },
   {
@@ -1281,7 +1261,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W42cm x H185cm",
     "price": 11170.00,
     "category": "Cabinet & Storage",
-    "image": getImg("FC-H3", "Cabinet & Storage", "METAL CABINET"),
+    "image": getPlaceholderImgUrl("FC-H3", "Cabinet & Storage", "METAL CABINET"),
     "stock": 10
   },
   {
@@ -1292,7 +1272,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W45cm x H180cm",
     "price": 9950.00,
     "category": "Cabinet & Storage",
-    "image": getImg("FC-G5", "Cabinet & Storage", "METAL CABINET"),
+    "image": getPlaceholderImgUrl("FC-G5", "Cabinet & Storage", "METAL CABINET"),
     "stock": 10
   },
   {
@@ -1303,7 +1283,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W40cm x H105cm",
     "price": 7150.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-017", "Cabinet & Storage", "METAL CABINET"),
+    "image": getPlaceholderImgUrl("WLS-017", "Cabinet & Storage", "METAL CABINET"),
     "stock": 10
   },
   {
@@ -1314,7 +1294,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L90cm x W40cm x H180cm",
     "price": 10835.00,
     "category": "Cabinet & Storage",
-    "image": getImg("FC-G6", "Cabinet & Storage", "METAL CABINET"),
+    "image": getPlaceholderImgUrl("FC-G6", "Cabinet & Storage", "METAL CABINET"),
     "stock": 10
   },
   {
@@ -1325,7 +1305,7 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L80cm x W35cm x H100cm",
     "price": 7580.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-041", "Cabinet & Storage", "METAL DISPLAY CABINET"),
+    "image": getPlaceholderImgUrl("WLS-041", "Cabinet & Storage", "METAL DISPLAY CABINET"),
     "stock": 10
   },
   {
@@ -1336,29 +1316,29 @@ export const PRODUCTS_DB: Product[] = [
     "dimensions": "L80cm x W35cm x H180cm",
     "price": 12535.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-042", "Cabinet & Storage", "METAL DISPLAY CABINET"),
+    "image": getPlaceholderImgUrl("WLS-042", "Cabinet & Storage", "METAL DISPLAY CABINET"),
     "stock": 10
   },
   {
     "id": "WLS-040 (HX-W052ZY)",
-    "sku": "WLS-040 (HX-W052ZY)",
+    "sku": "HX-W052ZY",
     "name": "METAL CABINET",
     "description": "Premium metal cabinet with a wood grain finish. Combines the durability of steel with the aesthetic of wood. Features swing doors and 4 adjustable shelves.",
     "dimensions": "L90cm x W42cm x H185cm",
     "price": 10835.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-040", "Cabinet & Storage", "METAL CABINET"),
+    "image": getPlaceholderImgUrl("WLS-040", "Cabinet & Storage", "METAL CABINET"),
     "stock": 10
   },
   {
     "id": "WLS-039 (HX-W055ZY)",
-    "sku": "WLS-039 (HX-W055ZY)",
+    "sku": "HX-W055ZY",
     "name": "METAL CABINET",
     "description": "Wood grain finished metal cabinet with 2 external pull-out drawers. Offers a mix of concealed shelf storage and accessible drawer space. Stylish and tough.",
     "dimensions": "Standard Size",
     "price": 10835.00,
     "category": "Cabinet & Storage",
-    "image": getImg("WLS-039", "Cabinet & Storage", "METAL CABINET"),
+    "image": getPlaceholderImgUrl("WLS-039", "Cabinet & Storage", "METAL CABINET"),
     "stock": 10
   }
 ];

@@ -1,7 +1,7 @@
 import React from 'react';
 import { X, Trash2, Check, AlertCircle, ShoppingCart } from 'lucide-react';
 import { Product } from '@/src/types';
-import { calculateFinalPrice } from '@/src/constants';
+import { calculateFinalPrice } from '@/src/utils/pricingUtils';
 import { getImageUrl } from '@/src/utils/imageUtils';
 
 interface ComparisonModalProps {
