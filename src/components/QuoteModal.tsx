@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { X, Trash2, Printer, Plus, Minus, User, MapPin, Phone, Mail, Ruler, FileText, Download } from 'lucide-react';
+import type React from 'react';
+import { useState } from 'react';
+import { X, Trash2, Printer, Plus, Minus, MapPin, Phone, Mail, Ruler } from 'lucide-react';
 import { CartItem } from '@/types';
 import { getImageUrl } from '@/utils/imageUtils';
 
@@ -11,7 +12,7 @@ interface QuoteModalProps {
   remove: (id: string) => void;
 }
 
-export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, cart, updateQty, remove }) => {
+export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, cart, updateQty, remove }: QuoteModalProps) => {
   const [clientDetails, setClientDetails] = useState({
     name: '',
     address: '',
@@ -26,7 +27,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, cart, u
 
   if (!isOpen) return null;
 
-  const subtotal = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
+  const subtotal = cart.reduce((sum: number, item: CartItem) => sum + (item.finalPrice * item.quantity), 0);
   const grandTotal = Math.max(0, subtotal + financials.delivery - financials.discount);
 
   const handlePrint = () => {
@@ -35,12 +36,12 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, cart, u
 
   const handleClientChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setClientDetails(prev => ({ ...prev, [name]: value }));
+    setClientDetails((prev: typeof clientDetails) => ({ ...prev, [name]: value }));
   };
 
   const handleFinancialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFinancials(prev => ({ ...prev, [name]: parseFloat(value) || 0 }));
+    setFinancials((prev: typeof financials) => ({ ...prev, [name]: parseFloat(value) || 0 }));
   };
 
   const currentDate = new Date().toLocaleDateString('en-US', {
@@ -172,7 +173,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, cart, u
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {cart.map((item) => (
+                  {cart.map((item: CartItem) => (
                     <tr key={`${item.id}-${JSON.stringify(item.selectedVariants)}`}>
                       <td className="py-4 px-2 align-top">
                         <div className="w-12 h-12 bg-slate-50 rounded-lg border border-slate-200 overflow-hidden flex items-center justify-center">
@@ -180,7 +181,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, cart, u
                             src={getImageUrl(item.image)} 
                             alt={item.name} 
                             className="w-full h-full object-contain mix-blend-multiply" 
-                            onError={(e) => {
+                            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                               (e.target as HTMLImageElement).src = "https://placehold.co/100x100?text=IMG";
                             }}
                           />
@@ -198,7 +199,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, cart, u
                                <Ruler className="w-3 h-3 mr-1" /> {item.dimensions}
                              </span>
                            )}
-                           {item.selectedVariants && Object.entries(item.selectedVariants).map(([key, value]) => (
+                           {item.selectedVariants && Object.entries(item.selectedVariants).map(([key, value]: [string, string]) => (
                              <span key={key} className="inline-flex items-center text-[10px] bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded border border-indigo-100">
                                {key}: {value}
                              </span>

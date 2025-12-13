@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useState } from 'react';
 import { Product } from '@/types';
 import { generateProductImage } from '@/services/gemini';
@@ -8,19 +9,19 @@ export const useBatchImageGeneration = (
   allProducts: Product[],
   updateProductInState: (id: string, updates: Partial<Product>) => void
 ) => {
-  const [isBatchMode, setIsBatchMode] = useState(false);
+  const [isBatchMode, setIsBatchMode] = useState<boolean>(false);
   const [selectedBatchIds, setSelectedBatchIds] = useState<Set<string>>(new Set());
   const [batchStatuses, setBatchStatuses] = useState<Record<string, BatchStatus>>({});
-  const [isBatchGenerating, setIsBatchGenerating] = useState(false);
+  const [isBatchGenerating, setIsBatchGenerating] = useState<boolean>(false);
 
   const toggleBatchMode = () => {
-    setIsBatchMode(prev => !prev);
+    setIsBatchMode((prev: boolean) => !prev);
     setSelectedBatchIds(new Set());
     setBatchStatuses({});
   };
 
   const handleToggleBatchSelect = (id: string) => {
-    setSelectedBatchIds(prev => {
+    setSelectedBatchIds((prev: Set<string>) => {
         const newSet = new Set(prev);
         if (newSet.has(id)) {
             newSet.delete(id);
@@ -33,8 +34,8 @@ export const useBatchImageGeneration = (
 
   const handleSelectAllMissingImages = () => {
     const missingImageIds = allProducts
-        .filter(p => p.image.includes('placehold.co'))
-        .map(p => p.id);
+        .filter((p: Product) => p.image.includes('placehold.co'))
+        .map((p: Product) => p.id);
     
     setSelectedBatchIds(new Set(missingImageIds));
   };
@@ -45,26 +46,26 @@ export const useBatchImageGeneration = (
     setIsBatchGenerating(true);
     
     const initialStatuses: Record<string, BatchStatus> = {};
-    selectedBatchIds.forEach(id => {
+    selectedBatchIds.forEach((id: string) => {
         initialStatuses[id] = 'generating';
     });
     setBatchStatuses(initialStatuses);
 
     const promises = Array.from(selectedBatchIds).map(async (id: string) => {
-        const product = allProducts.find(p => p.id === id);
+        const product = allProducts.find((p: Product) => p.id === id);
         if (!product) return;
 
         try {
             const newUrl = await generateProductImage(product.name, product.description, product.category);
             if (newUrl) {
                 updateProductInState(id, { image: newUrl });
-                setBatchStatuses(prev => ({ ...prev, [id]: 'success' }));
+                setBatchStatuses((prev: Record<string, BatchStatus>) => ({ ...prev, [id]: 'success' }));
             } else {
-                setBatchStatuses(prev => ({ ...prev, [id]: 'error' }));
+                setBatchStatuses((prev: Record<string, BatchStatus>) => ({ ...prev, [id]: 'error' }));
             }
         } catch (error) {
             console.error(`Error generating image for ${id}:`, error);
-            setBatchStatuses(prev => ({ ...prev, [id]: 'error' }));
+            setBatchStatuses((prev: Record<string, BatchStatus>) => ({ ...prev, [id]: 'error' }));
         }
     });
 
@@ -72,7 +73,7 @@ export const useBatchImageGeneration = (
     setIsBatchGenerating(false);
     
     setTimeout(() => {
-        setBatchStatuses(prev => {
+        setBatchStatuses((prev: Record<string, BatchStatus>) => {
             const next = { ...prev };
             Object.keys(next).forEach(key => {
                 if (next[key] === 'success') delete next[key];

@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useState, useMemo } from 'react';
 import { CartItem, Product } from '@/types';
 import { calculateFinalPrice } from '@/utils/pricingUtils'; // Updated import
@@ -5,13 +6,13 @@ import { calculateFinalPrice } from '@/utils/pricingUtils'; // Updated import
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  const cartCount = useMemo(() => cart.reduce((a, b) => a + b.quantity, 0), [cart]);
+  const cartCount = useMemo(() => cart.reduce((a: number, b: CartItem) => a + b.quantity, 0), [cart]);
 
   const addToCart = (product: Product, quantity: number = 1, selectedVariants?: Record<string, string>, priceOverride?: number) => {
-    setCart(prev => {
+    setCart((prev: CartItem[]) => {
       const variantKey = selectedVariants ? JSON.stringify(selectedVariants) : '';
       
-      const existingIndex = prev.findIndex(item => 
+      const existingIndex = prev.findIndex((item: CartItem) => 
         item.id === product.id && 
         JSON.stringify(item.selectedVariants || {}) === (variantKey || '{}')
       );
@@ -35,7 +36,7 @@ export const useCart = () => {
   };
 
   const updateCartQty = (id: string, delta: number) => {
-    setCart(prev => prev.map(item => {
+    setCart((prev: CartItem[]) => prev.map((item: CartItem) => {
       if (item.id === id) {
         const newQty = Math.max(0, item.quantity + delta);
         return newQty === 0 ? null : { ...item, quantity: newQty };
@@ -45,7 +46,7 @@ export const useCart = () => {
   };
 
   const removeFromCart = (id: string) => {
-    setCart(prev => prev.filter(item => item.id !== id));
+    setCart((prev: CartItem[]) => prev.filter((item: CartItem) => item.id !== id));
   };
 
   return {

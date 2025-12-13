@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Dashboard } from '@/components/Dashboard';
 import { Product } from '@/types';
 import { Image as ImageIcon, Loader2, Sparkles } from 'lucide-react';
@@ -62,7 +62,7 @@ export const ProductCatalogSection: React.FC<ProductCatalogSectionProps> = ({
   handleToggleBatchSelect,
   handleSelectAllMissingImages,
   handleBatchGenerate,
-}) => {
+}: ProductCatalogSectionProps) => {
   return (
     <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 print:hidden pb-32">
       

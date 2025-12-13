@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import type React from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, Send, X, Loader2, Sparkles } from 'lucide-react';
 import { sendMessage } from '@/services/gemini';
 import { Product } from '@/types';
@@ -13,12 +14,12 @@ interface Message {
 }
 
 export const ChatAssistant: React.FC<ChatAssistantProps> = ({ products = [] }) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[]>([
         { role: 'model', text: "Hi! I'm your OBRA sales assistant. Looking for something specific? Ask me about our desks, chairs, or cabinets!" }
     ]);
-    const [input, setInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [input, setInput] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -34,12 +35,12 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({ products = [] }) =
 
         const userMsg = input.trim();
         setInput('');
-        setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
+        setMessages((prev: Message[]) => [...prev, { role: 'user', text: userMsg }]);
         setIsLoading(true);
 
         const response = await sendMessage(userMsg, products);
         
-        setMessages(prev => [...prev, { role: 'model', text: response }]);
+        setMessages((prev: Message[]) => [...prev, { role: 'model', text: response }]);
         setIsLoading(false);
     };
 
@@ -68,7 +69,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({ products = [] }) =
 
                     {/* Messages */}
                     <div className="h-80 overflow-y-auto p-4 bg-slate-50 space-y-4">
-                        {messages.map((msg, idx) => (
+                        {messages.map((msg: Message, idx: number) => (
                             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div 
                                     className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
@@ -96,7 +97,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({ products = [] }) =
                         <input
                             type="text"
                             value={input}
-                            onChange={(e) => setInput(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
                             onKeyDown={handleKeyPress}
                             placeholder="Ask about prices, stock..."
                             className="flex-1 bg-slate-100 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all outline-none"

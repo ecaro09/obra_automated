@@ -1,7 +1,7 @@
+import type React from 'react';
 import { useState, useEffect, useMemo } from 'react';
 import { Product } from '@/types';
 import { PRODUCTS_DB } from '@/constants';
-import { calculateFinalPrice } from '@/utils/pricingUtils'; // Updated import
 
 export const useProducts = () => {
   const [userProducts, setUserProducts] = useState<Product[]>(() => {
@@ -34,7 +34,7 @@ export const useProducts = () => {
 
   // Combine static DB with user-added products and apply overrides
   const allProducts = useMemo(() => {
-    const dbProducts = PRODUCTS_DB.map(p => {
+    const dbProducts = PRODUCTS_DB.map((p: Product) => {
       const overriddenProduct = productOverrides[p.id] || p;
       return { ...overriddenProduct };
     });
@@ -44,22 +44,22 @@ export const useProducts = () => {
   // Centralized function to update product image or any other product property in state
   const updateProductInState = (id: string, updates: Partial<Product>) => {
     // 1. Check User Products
-    if (userProducts.some(p => p.id === id)) {
-        setUserProducts(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
+    if (userProducts.some((p: Product) => p.id === id)) {
+        setUserProducts((prev: Product[]) => prev.map((p: Product) => p.id === id ? { ...p, ...updates } : p));
         return;
     }
     // 2. Check Product Overrides (DB product that was edited)
     if (productOverrides[id]) {
-        setProductOverrides(prev => ({
+        setProductOverrides((prev: Record<string, Product>) => ({
             ...prev,
             [id]: { ...prev[id], ...updates }
         }));
         return;
     }
     // 3. If it's a DB product not yet overridden, create an override
-    const dbProduct = PRODUCTS_DB.find(p => p.id === id);
+    const dbProduct = PRODUCTS_DB.find((p: Product) => p.id === id);
     if (dbProduct) {
-        setProductOverrides(prev => ({
+        setProductOverrides((prev: Record<string, Product>) => ({
             ...prev,
             [id]: { ...dbProduct, ...updates }
         }));
@@ -67,16 +67,16 @@ export const useProducts = () => {
   };
 
   const handleSaveProduct = (product: Product) => {
-    const isUserProduct = userProducts.some(p => p.id === product.id);
+    const isUserProduct = userProducts.some((p: Product) => p.id === product.id);
     
     if (isUserProduct) {
-        setUserProducts(prev => prev.map(p => p.id === product.id ? product : p));
+        setUserProducts((prev: Product[]) => prev.map((p: Product) => p.id === product.id ? product : p));
     } else {
-        const isDbProduct = PRODUCTS_DB.some(p => p.id === product.id);
+        const isDbProduct = PRODUCTS_DB.some((p: Product) => p.id === product.id);
         if (isDbProduct) {
-            setProductOverrides(prev => ({ ...prev, [product.id]: product }));
+            setProductOverrides((prev: Record<string, Product>) => ({ ...prev, [product.id]: product }));
         } else {
-            setUserProducts(prev => [product, ...prev]);
+            setUserProducts((prev: Product[]) => [product, ...prev]);
         }
     }
   };

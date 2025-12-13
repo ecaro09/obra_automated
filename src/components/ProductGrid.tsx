@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { ProductCard, BatchStatus } from '@/components/ProductCard';
 import { Product } from '@/types';
 import { Search } from 'lucide-react';
@@ -31,12 +31,12 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   batchStatuses,
   handleToggleBatchSelect,
   clearSearch,
-}) => {
+}: ProductGridProps) => {
   return (
     <>
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map(product => (
+          {filteredProducts.map((product: Product) => (
             <ProductCard 
               key={product.id} 
               product={product} 
@@ -45,7 +45,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               onCompare={onToggleComparison}
               onEdit={onEditProduct}
               onUpdateImageInState={onUpdateProductImageInState}
-              isComparing={compareList.some(p => p.id === product.id)}
+              isComparing={compareList.some((p: Product) => p.id === product.id)}
               // Batch Props
               isBatchMode={isBatchMode}
               isSelected={selectedBatchIds.has(product.id)}

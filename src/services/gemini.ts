@@ -6,7 +6,7 @@ let chatSession: Chat | null = null;
 let lastUsedProductsHash: string = "";
 
 const formatCatalogForPrompt = (products: Product[]) => {
-    return products.map(p => 
+    return products.map((p: Product) => 
         `- SKU: "${p.sku || p.id}" | Name: "${p.name}" | Description: "${p.description}" | Category: "${p.category}" | Unit Price: ₱${calculateFinalPrice(p.price).toFixed(2)} | Stock: ${p.stock} | ImagePath: "${p.image ? 'Present' : 'Missing'}"`
     ).join('\n');
 };
@@ -18,7 +18,7 @@ export const initializeChat = async (products: Product[]) => {
     }
 
     // Generate a lightweight hash to check if catalog data changed, avoiding huge base64 strings
-    const currentHash = JSON.stringify(products.map(p => p.id + p.stock + p.price));
+    const currentHash = JSON.stringify(products.map((p: Product) => p.id + p.stock + p.price));
     
     // Reuse session if catalog hasn't changed
     if (chatSession && lastUsedProductsHash === currentHash) {
@@ -90,7 +90,7 @@ export const searchProducts = async (searchTerm: string, products: Product[]): P
 
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     
-    const catalogContext = products.map(p => {
+    const catalogContext = products.map((p: Product) => {
         const finalPrice = calculateFinalPrice(p.price);
         return `ID: "${p.id}" | Name: "${p.name}" | Category: "${p.category}" | Desc: "${p.description}" | Dimensions: "${p.dimensions || ''}" | Final Price: ${finalPrice}`;
     }).join('\n');

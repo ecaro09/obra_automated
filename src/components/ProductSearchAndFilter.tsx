@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Search, Sparkles, Loader2, XCircle, Layers } from 'lucide-react';
 import { Product } from '@/types';
 
@@ -29,7 +29,7 @@ export const ProductSearchAndFilter: React.FC<ProductSearchAndFilterProps> = ({
   setSelectedCategory,
   isBatchMode,
   toggleBatchMode,
-}) => {
+}: ProductSearchAndFilterProps) => {
   return (
     <>
       {/* Search Bar & Batch Toggle */}
@@ -45,7 +45,7 @@ export const ProductSearchAndFilter: React.FC<ProductSearchAndFilterProps> = ({
               placeholder="Ask AI: 'office tables under 15k with drawers'..."
               value={searchTerm}
               onChange={handleSearchChange}
-              onKeyDown={(e) => e.key === 'Enter' && handleAISearch()}
+              onKeyDown={(e: React.KeyboardEvent) => e.key === 'Enter' && handleAISearch()}
               />
               
               <div className="absolute inset-y-0 right-2 flex items-center gap-1">
@@ -96,7 +96,7 @@ export const ProductSearchAndFilter: React.FC<ProductSearchAndFilterProps> = ({
       {/* Filter Controls */}
       <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
         <div className="flex space-x-2">
-          {categories.map(cat => (
+          {categories.map((cat: string) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}

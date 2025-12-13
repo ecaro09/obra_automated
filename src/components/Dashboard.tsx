@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Product, CategoryData } from '@/types';
 
@@ -6,10 +6,10 @@ interface DashboardProps {
   products: Product[];
 }
 
-export const Dashboard: React.FC<DashboardProps> = ({ products }) => {
+export const Dashboard: React.FC<DashboardProps> = ({ products }: DashboardProps) => {
   const data: CategoryData[] = React.useMemo(() => {
     const counts: Record<string, number> = {};
-    products.forEach(p => {
+    products.forEach((p: Product) => {
       counts[p.category] = (counts[p.category] || 0) + 1;
     });
     return Object.entries(counts)
@@ -38,7 +38,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ products }) => {
               axisLine={false}
               tickLine={false}
               interval={0}
-              tickFormatter={(val) => val.length > 10 ? val.slice(0, 10) + '...' : val}
+              tickFormatter={(val: string) => val.length > 10 ? val.slice(0, 10) + '...' : val}
             />
             <YAxis 
               hide 
@@ -52,7 +52,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ products }) => {
               radius={[4, 4, 4, 4]}
               barSize={40}
             >
-               {data.map((entry, index) => (
+               {data.map((entry: CategoryData, index: number) => (
                 <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#0d9488' : '#cbd5e1'} />
               ))}
             </Bar>

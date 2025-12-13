@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { Plus, Tag, AlertCircle, Minus, Image as ImageIcon, Sparkles, Loader2, Scale, Pencil, Link, ImageOff, CheckCircle2, XCircle, FileEdit, Check, Ruler, Layers } from 'lucide-react';
 import { Product } from '@/types';
 import { calculateFinalPrice } from '@/utils/pricingUtils';
@@ -33,8 +34,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isSelected = false,
   onToggleSelect,
   batchStatus = 'idle'
-}) => {
-  const [quantity, setQuantity] = useState(1);
+}: ProductCardProps) => {
+  const [quantity, setQuantity] = useState<number>(1);
   
   // Use custom hook for image logic, passing the new update function
   const {
@@ -63,14 +64,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const handleIncrement = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (quantity < product.stock) {
-      setQuantity(prev => prev + 1);
+      setQuantity((prev: number) => prev + 1);
     }
   };
 
   const handleDecrement = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (quantity > 1) {
-      setQuantity(prev => prev - 1);
+      setQuantity((prev: number) => prev - 1);
     }
   };
 
@@ -319,7 +320,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               </span>
             </div>
             
-            <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-2" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
               <button
                   onClick={handleEditProduct}
                   className="rounded-lg w-10 h-10 flex items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-all duration-200"

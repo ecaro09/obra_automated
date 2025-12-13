@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { ShoppingCart, Armchair, Plus } from 'lucide-react';
 
 interface NavbarProps {
