@@ -56,6 +56,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, cart, u
         {/* Overlay */}
         <div 
           className="fixed inset-0 transition-opacity bg-slate-900 bg-opacity-75 print:hidden" 
+          aria-hidden="true"
           onClick={onClose}
         ></div>
 
