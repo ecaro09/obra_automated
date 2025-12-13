@@ -35,11 +35,11 @@ function App() {
   } = useBatchImageGeneration(allProducts, updateProductInState);
 
   // --- Modal States ---
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState<boolean>(false);
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+  const [isCompareModalOpen, setIsCompareModalOpen] = useState<boolean>(false);
 
   // --- Handlers for Modals and Product Actions ---
   const handleProductClick = (product: Product) => {
@@ -87,7 +87,7 @@ function App() {
         onProductClick={handleProductClick}
         onToggleComparison={toggleComparison}
         onEditProduct={handleEditProduct}
-        onUpdateProductImageInState={(id, newUrl) => updateProductInState(id, { image: newUrl })}
+        onUpdateProductImageInState={(id: string, newUrl: string) => updateProductInState(id, { image: newUrl })}
         compareList={compareList}
         isBatchMode={isBatchMode}
         selectedBatchIds={selectedBatchIds}

@@ -23,9 +23,9 @@ const CATEGORIES = [
 ];
 
 export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onSave, productToEdit }) => {
-  const [isGeneratingDesc, setIsGeneratingDesc] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [keyFeatures, setKeyFeatures] = useState('');
+  const [isGeneratingDesc, setIsGeneratingDesc] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [keyFeatures, setKeyFeatures] = useState<string>('');
   
   const [formData, setFormData] = useState<Partial<Product>>({
     name: '',
@@ -68,14 +68,14 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev: Partial<Product>) => ({
       ...prev,
       [name]: name === 'price' || name === 'stock' ? parseFloat(value) || 0 : value
     }));
   };
 
   const handleImageChange = (newImageUrl: string) => {
-    setFormData(prev => ({ ...prev, image: newImageUrl }));
+    setFormData((prev: Partial<Product>) => ({ ...prev, image: newImageUrl }));
   };
 
   const handleGenerateDescription = async () => {
@@ -90,7 +90,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
         );
         
         if (desc) {
-            setFormData(prev => ({ 
+            setFormData((prev: Partial<Product>) => ({ 
                 ...prev, 
                 description: desc,
             }));
@@ -103,14 +103,14 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
   };
 
   const handleAddVariant = () => {
-    setFormData(prev => ({
+    setFormData((prev: Partial<Product>) => ({
         ...prev,
         variants: [...(prev.variants || []), { name: '', options: [], prices: {} }]
     }));
   };
 
   const handleRemoveVariant = (index: number) => {
-      setFormData(prev => {
+      setFormData((prev: Partial<Product>) => {
           const newVariants = [...(prev.variants || [])];
           newVariants.splice(index, 1);
           return { ...prev, variants: newVariants };
@@ -118,7 +118,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
   };
 
   const handleVariantNameChange = (index: number, name: string) => {
-      setFormData(prev => {
+      setFormData((prev: Partial<Product>) => {
           const newVariants = [...(prev.variants || [])];
           newVariants[index] = { ...newVariants[index], name };
           return { ...prev, variants: newVariants };
@@ -127,8 +127,8 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
 
   const handleVariantOptionsChange = (index: number, optionsString: string) => {
       // Convert comma-separated string to array
-      const options = optionsString.split(',').map(s => s.trim()).filter(Boolean);
-      setFormData(prev => {
+      const options = optionsString.split(',').map((s: string) => s.trim()).filter(Boolean);
+      setFormData((prev: Partial<Product>) => {
           const newVariants = [...(prev.variants || [])];
           newVariants[index] = { ...newVariants[index], options };
           return { ...prev, variants: newVariants };
@@ -136,7 +136,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
   };
 
   const handleVariantPriceChange = (variantIndex: number, option: string, price: string) => {
-      setFormData(prev => {
+      setFormData((prev: Partial<Product>) => {
           const newVariants = [...(prev.variants || [])];
           const currentVariant = newVariants[variantIndex];
           const currentPrices = { ...(currentVariant.prices || {}) };
@@ -175,11 +175,11 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             if (generatedUrl) {
                 finalImageUrl = generatedUrl;
             } else {
-                finalImageUrl = `https://placehold.co/600x400/f1f5f9/475569?text=${encodeURIComponent(formData.name.replace(/\s+/g, '+'))}`;
+                finalImageUrl = `https://placehold.co/600x400/f1f5f9/475569?text=${encodeURIComponent((formData.name || 'Product').replace(/\s+/g, '+'))}`;
             }
         } catch (error) {
             console.error("Error generating image on submit:", error);
-            finalImageUrl = `https://placehold.co/600x400/f1f5f9/475569?text=${encodeURIComponent(formData.name.replace(/\s+/g, '+'))}`;
+            finalImageUrl = `https://placehold.co/600x400/f1f5f9/475569?text=${encodeURIComponent((formData.name || 'Product').replace(/\s+/g, '+'))}`;
         }
     }
 
@@ -278,7 +278,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                             className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none bg-white"
                             disabled={isSubmitting}
                         >
-                            {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                            {CATEGORIES.map((c: string) => <option key={c} value={c}>{c}</option>)}
                         </select>
                     </div>
                     <div>
@@ -319,7 +319,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                     <input
                         type="text"
                         value={keyFeatures}
-                        onChange={(e) => setKeyFeatures(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyFeatures(e.target.value)}
                         className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
                         placeholder="e.g. Ergonomic, Water-resistant, 5-year warranty"
                         disabled={isSubmitting}
@@ -401,7 +401,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                     
                     {formData.variants && formData.variants.length > 0 ? (
                         <div className="space-y-3">
-                            {formData.variants.map((variant, idx) => (
+                            {formData.variants.map((variant: Variant, idx: number) => (
                                 <div key={idx} className="bg-slate-50 p-3 rounded-lg border border-slate-200 relative group">
                                     <button
                                         type="button"
@@ -415,7 +415,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                                         <input
                                             type="text"
                                             value={variant.name}
-                                            onChange={(e) => handleVariantNameChange(idx, e.target.value)}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleVariantNameChange(idx, e.target.value)}
                                             placeholder="Variant Name (e.g. Size)"
                                             className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded focus:border-teal-500 outline-none"
                                             disabled={isSubmitting}
@@ -423,7 +423,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                                         <input
                                             type="text"
                                             value={variant.options.join(', ')}
-                                            onChange={(e) => handleVariantOptionsChange(idx, e.target.value)}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleVariantOptionsChange(idx, e.target.value)}
                                             placeholder="Options (e.g. 1.2m, 1.4m)"
                                             className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded focus:border-teal-500 outline-none"
                                             disabled={isSubmitting}
@@ -432,7 +432,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                                         {/* Price Overrides per Option */}
                                         {variant.options.length > 0 && (
                                             <div className="mt-2 space-y-2 pl-2 border-l-2 border-slate-100">
-                                                {variant.options.map((option) => (
+                                                {variant.options.map((option: string) => (
                                                     <div key={option} className="flex items-center gap-2 text-sm">
                                                         <span className="flex-1 text-slate-600 truncate" title={option}>{option}</span>
                                                         <div className="flex items-center gap-1">
@@ -441,7 +441,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                                                                 type="number"
                                                                 placeholder="Override Price"
                                                                 value={variant.prices?.[option] || ''}
-                                                                onChange={(e) => handleVariantPriceChange(idx, option, e.target.value)}
+                                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleVariantPriceChange(idx, option, e.target.value)}
                                                                 className="w-24 px-2 py-1 text-xs border border-slate-200 rounded focus:border-teal-500 outline-none"
                                                                 disabled={isSubmitting}
                                                             />

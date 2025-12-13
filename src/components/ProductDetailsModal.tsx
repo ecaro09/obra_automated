@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import type React from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { X, ShoppingCart, Tag, Check, AlertCircle, Minus, Plus, Ruler, Barcode, Package, Link as LinkIcon } from 'lucide-react';
-import { Product } from '@/types';
+import { Product, Variant } from '@/types';
 import { calculateFinalPrice } from '@/utils/pricingUtils'; // Updated import
 import { getImageUrl } from '@/utils/imageUtils';
 
@@ -16,10 +17,10 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   onClose, 
   product, 
   onAddToCart 
-}) => {
-  const [quantity, setQuantity] = useState(1);
+}: ProductDetailsModalProps) => {
+  const [quantity, setQuantity] = useState<number>(1);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
-  const [showCopyFeedback, setShowCopyFeedback] = useState(false);
+  const [showCopyFeedback, setShowCopyFeedback] = useState<boolean>(false);
 
   // Initialize defaults when product changes
   useEffect(() => {
@@ -28,7 +29,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     if (product) {
         if (product.variants) {
             const defaults: Record<string, string> = {};
-            product.variants.forEach(v => {
+            product.variants.forEach((v: Variant) => {
                 if (v.options.length > 0) {
                     defaults[v.name] = v.options[0];
                 }
@@ -48,7 +49,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
     // Check if any selected variant option has a specific price override
     if (product.variants) {
-        product.variants.forEach(variant => {
+        product.variants.forEach((variant: Variant) => {
             const selectedOption = selectedVariants[variant.name];
             // If the selected option has a price in the map, it overrides the current price
             if (selectedOption && variant.prices && variant.prices[selectedOption] !== undefined) {
@@ -69,18 +70,18 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
   const handleIncrement = () => {
     if (quantity < product.stock) {
-      setQuantity(prev => prev + 1);
+      setQuantity((prev: number) => prev + 1);
     }
   };
 
   const handleDecrement = () => {
     if (quantity > 1) {
-      setQuantity(prev => prev - 1);
+      setQuantity((prev: number) => prev - 1);
     }
   };
 
   const handleVariantChange = (variantName: string, option: string) => {
-    setSelectedVariants(prev => ({
+    setSelectedVariants((prev: Record<string, string>) => ({
       ...prev,
       [variantName]: option
     }));
@@ -143,7 +144,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 alt={product.name}
                 loading="lazy"
                 className={`max-h-[400px] w-auto object-contain mix-blend-multiply transform transition-transform duration-500 hover:scale-105 ${isOutOfStock ? 'grayscale opacity-75' : ''}`}
-                onError={(e) => {
+                onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                     const target = e.target as HTMLImageElement;
                     target.onerror = null; 
                     target.src = "https://placehold.co/600x600/f8fafc/64748b?text=No+Image";
@@ -233,14 +234,14 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 {/* Variants Selection */}
                 {product.variants && product.variants.length > 0 && (
                   <div className="mb-8 space-y-5 p-5 bg-slate-50 rounded-xl border border-slate-100">
-                     {product.variants.map(variant => (
+                     {product.variants.map((variant: Variant) => (
                         <div key={variant.name}>
                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 flex justify-between">
                              <span>{variant.name}</span>
                              <span className="text-slate-400 font-normal normal-case">Select one</span>
                            </label>
                            <div className="flex flex-wrap gap-2">
-                              {variant.options.map(option => {
+                              {variant.options.map((option: string) => {
                                 const isSelected = selectedVariants[variant.name] === option;
                                 const optionBasePrice = variant.prices?.[option];
                                 const hasPriceOverride = optionBasePrice !== undefined;

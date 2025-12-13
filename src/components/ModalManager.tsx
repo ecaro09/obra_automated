@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { QuoteModal } from '@/components/QuoteModal';
 import { ProductDetailsModal } from '@/components/ProductDetailsModal';
 import { AddProductModal } from '@/components/AddProductModal';
@@ -50,7 +50,7 @@ export const ModalManager: React.FC<ModalManagerProps> = ({
   compareList,
   onRemoveFromComparison,
   onAddToCartFromComparison,
-}) => {
+}: ModalManagerProps) => {
   return (
     <>
       <QuoteModal 

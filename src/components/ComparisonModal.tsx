@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { X, Trash2, Check, AlertCircle, ShoppingCart } from 'lucide-react';
 import { Product } from '@/types';
 import { calculateFinalPrice } from '@/utils/pricingUtils';
@@ -18,7 +18,7 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
   products, 
   onRemove,
   onAddToCart
-}) => {
+}: ComparisonModalProps) => {
   if (!isOpen) return null;
 
   const handleAddToCart = (product: Product) => {
@@ -58,7 +58,7 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
                         
                         {/* Header Row: Images & Actions */}
                         <div className="p-4 font-semibold text-slate-500 text-sm flex items-center">Product</div>
-                        {products.map(product => (
+                        {products.map((product: Product) => (
                             <div key={product.id} className="p-4 border-l border-slate-100 flex flex-col items-center relative group">
                                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <button 
@@ -75,7 +75,7 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
                                         alt={product.name} 
                                         loading="lazy"
                                         className="max-h-full max-w-full object-contain mix-blend-multiply"
-                                        onError={(e) => {
+                                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                                             (e.target as HTMLImageElement).src = "https://placehold.co/400x400/f8fafc/64748b?text=No+Image";
                                         }}
                                     />
@@ -92,7 +92,7 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
 
                         {/* Price Row */}
                         <div className="p-4 font-semibold text-slate-500 text-sm bg-white border-y border-slate-100">Price</div>
-                        {products.map(product => (
+                        {products.map((product: Product) => (
                             <div key={`price-${product.id}`} className="p-4 border-l border-y border-slate-100 bg-white text-center">
                                 <span className="text-lg font-bold text-teal-700">
                                     ₱{calculateFinalPrice(product.price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
@@ -102,7 +102,7 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
 
                         {/* Category Row */}
                         <div className="p-4 font-semibold text-slate-500 text-sm">Category</div>
-                        {products.map(product => (
+                        {products.map((product: Product) => (
                             <div key={`cat-${product.id}`} className="p-4 border-l border-slate-100 text-center text-slate-700 text-sm">
                                 {product.category}
                             </div>
@@ -110,7 +110,7 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
 
                         {/* Stock Status Row */}
                         <div className="p-4 font-semibold text-slate-500 text-sm bg-white border-y border-slate-100">Availability</div>
-                        {products.map(product => {
+                        {products.map((product: Product) => {
                             const isOutOfStock = product.stock === 0;
                             const isLowStock = product.stock > 0 && product.stock <= 5;
                             return (
@@ -134,7 +134,7 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
 
                         {/* Description Row */}
                         <div className="p-4 font-semibold text-slate-500 text-sm">Description</div>
-                        {products.map(product => (
+                        {products.map((product: Product) => (
                             <div key={`desc-${product.id}`} className="p-4 border-l border-slate-100 text-sm text-slate-600 leading-relaxed">
                                 {product.description}
                             </div>
@@ -142,7 +142,7 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
 
                         {/* ID Row */}
                         <div className="p-4 font-semibold text-slate-500 text-sm bg-white border-y border-slate-100">Product ID</div>
-                        {products.map(product => (
+                        {products.map((product: Product) => (
                             <div key={`id-${product.id}`} className="p-4 border-l border-y border-slate-100 bg-white text-center text-xs font-mono text-slate-400">
                                 {product.id}
                             </div>
