@@ -1,5 +1,5 @@
 import { GoogleGenAI, Chat, GenerateContentResponse, Type } from "@google/genai";
-import { calculateFinalPrice } from '@/utils/pricingUtils'; // Updated import
+import { calculateFinalPrice } from '@/utils/pricingUtils';
 import { Product } from '@/types';
 
 let chatSession: Chat | null = null;
@@ -75,7 +75,7 @@ export const sendMessage = async (message: string, products: Product[]): Promise
 
     try {
         const result: GenerateContentResponse = await chat.sendMessage({ message });
-        return result.text || "I'm not sure how to respond to that.";
+        return result.text ?? "I'm not sure how to respond to that.";
     } catch (error) {
         console.error("Gemini Error:", error);
         return "I encountered an error processing your request. Please try again.";

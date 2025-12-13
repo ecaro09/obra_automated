@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Product, CategoryData } from '@/types';
 
@@ -52,7 +52,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ products }: DashboardProps
               radius={[4, 4, 4, 4]}
               barSize={40}
             >
-               {data.map((entry: CategoryData, index: number) => (
+               {data.map((_entry: CategoryData, index: number) => (
                 <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#0d9488' : '#cbd5e1'} />
               ))}
             </Bar>

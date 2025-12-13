@@ -1,5 +1,4 @@
-import type React from 'react';
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Product } from '@/types';
 import { searchProducts } from '@/services/gemini';
 

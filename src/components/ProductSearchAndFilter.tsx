@@ -8,7 +8,7 @@ interface ProductSearchAndFilterProps {
   searchTerm: string;
   selectedCategory: string;
   isAISearching: boolean;
-  aiMatches: string[] | null;
+  aiMatches: string[] | null; // Keep this in interface as it's passed from parent
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleAISearch: () => void;
   clearSearch: () => void;
@@ -22,7 +22,7 @@ export const ProductSearchAndFilter: React.FC<ProductSearchAndFilterProps> = ({
   searchTerm,
   selectedCategory,
   isAISearching,
-  aiMatches,
+  // aiMatches, // Removed from destructuring as it's not used in this component's JSX
   handleSearchChange,
   handleAISearch,
   clearSearch,

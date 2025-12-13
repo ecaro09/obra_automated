@@ -1,7 +1,6 @@
-import type React from 'react';
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { CartItem, Product } from '@/types';
-import { calculateFinalPrice } from '@/utils/pricingUtils'; // Updated import
+import { calculateFinalPrice } from '@/utils/pricingUtils';
 
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);

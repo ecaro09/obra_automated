@@ -2,7 +2,7 @@ import type React from 'react';
 import { useState, useEffect, useMemo } from 'react';
 import { X, ShoppingCart, Tag, Check, AlertCircle, Minus, Plus, Ruler, Barcode, Package, Link as LinkIcon } from 'lucide-react';
 import { Product, Variant } from '@/types';
-import { calculateFinalPrice } from '@/utils/pricingUtils'; // Updated import
+import { calculateFinalPrice } from '@/utils/pricingUtils';
 import { getImageUrl } from '@/utils/imageUtils';
 
 interface ProductDetailsModalProps {

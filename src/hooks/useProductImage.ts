@@ -1,5 +1,4 @@
-import type React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Product } from '@/types';
 import { generateProductImage } from '@/services/gemini';
 import { getImageUrl } from '@/utils/imageUtils';
@@ -127,7 +126,7 @@ export const useProductImage = (
         setIsImageLoading(true);
 
         // Validate image before updating state or persistence
-        const tempImg = new Image();
+        const tempImg = new window.Image();
         tempImg.onload = () => {
             setImgSrc(resolvedUrl);
             setIsPlaceholder(false);

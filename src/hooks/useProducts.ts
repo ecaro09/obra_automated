@@ -1,5 +1,4 @@
-import type React from 'react';
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Product } from '@/types';
 import { PRODUCTS_DB } from '@/constants';
 

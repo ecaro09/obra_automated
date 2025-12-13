@@ -1,5 +1,4 @@
-import type React from 'react';
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, Send, X, Loader2, Sparkles } from 'lucide-react';
 import { sendMessage } from '@/services/gemini';
 import { Product } from '@/types';
