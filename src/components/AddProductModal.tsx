@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Check, Sparkles, Loader2, Barcode, Ruler, Send } from 'lucide-react';
+import { X, Plus, Sparkles, Loader2, Barcode, Ruler } from 'lucide-react';
 import { Product, Variant } from '@/types';
 import { generateProductDescription, generateProductImage } from '@/services/gemini'; // Ensure generateProductImage is imported for fallback
 import { ImageInputWithAI } from '@/components/ImageInputWithAI';

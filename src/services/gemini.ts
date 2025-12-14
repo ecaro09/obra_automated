@@ -162,7 +162,7 @@ export const generateProductDescription = async (name: string, category: string,
                 - Output only the description text, no labels, no markdown.
             `,
         });
-        return response.text;
+        return response.text ?? null;
     } catch (error) {
         console.error("Gemini Description Generation Error:", error);
         return null;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Product } from '@/types';
 import { generateProductImage } from '@/services/gemini';
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Sparkles, Loader2, Edit, X } from 'lucide-react';
+import { Image, Sparkles, Loader2, Edit } from 'lucide-react';
 import { generateProductImage } from '@/services/gemini';
 import { getImageUrl } from '@/utils/imageUtils';
 
@@ -93,7 +93,7 @@ export const ImageInputWithAI: React.FC<ImageInputWithAIProps> = ({
     if (manualUrl.trim()) {
       // Validate image before updating state or persistence
       setIsImageLoading(true);
-      const tempImg = new Image();
+      const tempImg = new window.Image();
       tempImg.onload = () => {
         onImageChange(manualUrl.trim());
         setShowUrlInput(false);
