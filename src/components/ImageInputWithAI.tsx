@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Sparkles, Loader2, Edit } from 'lucide-react';
+import { Sparkles, Loader2, Edit } from 'lucide-react';
 import { generateProductImage } from '@/services/gemini';
 import { getImageUrl } from '@/utils/imageUtils';
 

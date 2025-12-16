@@ -9,11 +9,11 @@ import { useComparison } from '@/hooks/useComparison';
 import { useSearchAndFilter } from '@/hooks/useSearchAndFilter';
 import { useBatchImageGeneration } from '@/hooks/useBatchImageGeneration';
 import { Product } from '@/types';
-import { Scale } from 'lucide-react';
+import { Scale, Loader2, AlertCircle } from 'lucide-react'; // Import Loader2 and AlertCircle
 
 function App() {
   // --- Product Data Management ---
-  const { allProducts, handleSaveProduct, updateProductInState } = useProducts();
+  const { allProducts, handleSaveProduct, updateProductInState, loading, error } = useProducts();
 
   // --- Cart Management ---
   const { cart, cartCount, addToCart, updateCartQty, removeFromCart } = useCart();
@@ -62,6 +62,28 @@ function App() {
     setIsAddProductModalOpen(false);
     setEditingProduct(null);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="w-12 h-12 animate-spin text-teal-600" />
+        <p className="ml-4 text-lg text-slate-700">Loading products...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-red-50 p-8">
+        <AlertCircle className="w-16 h-16 text-red-500 mb-4" />
+        <h1 className="text-2xl font-bold text-red-700 mb-2">Error Loading Products</h1>
+        <p className="text-red-600 text-center">
+          There was an issue fetching products from the database: {error}.
+          Please ensure your Supabase project is correctly configured and accessible.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">

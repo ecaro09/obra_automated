@@ -14,7 +14,10 @@ export interface Product {
   stock: number;
   sku?: string;
   dimensions?: string;
-  variants?: Variant[];
+  variants?: Variant[]; // Added variants property
+  seller_id?: string; // Added seller_id for Supabase integration
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface CartItem extends Product {
